@@ -1,0 +1,12 @@
+{
+  "name": "economy-bot-website",
+  "version": "1.0.0",
+  "description": "EconomyBot multi-page static website",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npx serve . -p 3000",
+    "preview": "npx serve dist -p 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status & Support — EconomyBot</title>
+  <meta name="description" content="Bot status, uptime dashboard, roadmap, changelog, and support resources for EconomyBot.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    .status-hero {
+      padding: 130px 0 60px;
+    }
+
+    /* Status grid */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .status-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .status-indicator {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .status-indicator.green { background: rgba(87,242,135,0.12); }
+    .status-indicator.yellow { background: rgba(254,231,92,0.12); }
+    .status-indicator.red { background: rgba(237,66,69,0.12); }
+    .status-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+    .status-value { font-weight: 700; font-size: 1.1rem; }
+    .status-dot-pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-glow 2s ease-in-out infinite;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    /* Uptime bar */
+    .uptime-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+    .uptime-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .uptime-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; }
+    .uptime-percentage { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--green); }
+    .uptime-bar-container { display: flex; gap: 3px; height: 32px; align-items: center; }
+    .uptime-day {
+      flex: 1;
+      height: 28px;
+      border-radius: 3px;
+      background: var(--bg-elevated);
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+      position: relative;
+    }
+    .uptime-day:hover { opacity: 0.8; }
+    .uptime-day.up { background: var(--green); }
+    .uptime-day.partial { background: var(--yellow); }
+    .uptime-day.down { background: var(--red); }
+    .uptime-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+    .uptime-label { font-size: 0.72rem; color: var(--text-muted); }
+    .uptime-legend { display: flex; gap: 16px; margin-top: 14px; }
+    .uptime-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-secondary); }
+    .uptime-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+    /* Incidents */
+    .incident-list { display: flex; flex-direction: column; gap: 12px; }
+    .incident {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      gap: 14px;
+    }
+    .incident-status-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .incident-date { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+    .incident-title { font-weight: 600; font-size: 0.875rem; margin-bottom: 4px; }
+    .incident-desc { font-size: 0.8rem; color: var(--text-secondary); }
+
+    /* Roadmap */
+    .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .roadmap-col {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .roadmap-col-header {
+      padding: 16px 20px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .roadmap-col-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .roadmap-task {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+    }
+    .roadmap-task-title { font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-size: 0.875rem; }
+    .roadmap-task-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .vote-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 10px;
+      background: var(--bg-overlay);
+      border: 1px solid var(--border);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-top: 8px;
+    }
+    .vote-btn:hover { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+    .vote-btn.voted { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+
+    /* Changelog */
+    .changelog-list { display: flex; flex-direction: column; gap: 24px; max-width: 760px; }
+    .changelog-entry {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .changelog-header {
+      padding: 16px 24px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .changelog-version { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
+    .changelog-date { font-size: 0.8rem; color: var(--text-muted); }
+    .changelog-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+    .changelog-item { display: flex; gap: 10px; font-size: 0.875rem; color: var(--text-secondary); align-items: flex-start; }
+    .changelog-badge {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .badge-feature { background: rgba(88,101,242,0.15); color: #7289ff; }
+    .badge-fix { background: rgba(87,242,135,0.1); color: var(--green); }
+    .badge-balance { background: rgba(254,231,92,0.1); color: var(--yellow); }
+
+    /* Support */
+    .support-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .support-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    .support-card:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+    .support-icon { font-size: 28px; }
+    .support-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+    .support-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+
+    @media (max-width: 900px) {
+      .status-grid { grid-template-columns: 1fr 1fr; }
+      .roadmap-grid { grid-template-columns: 1fr; }
+      .support-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .status-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="page-status">
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">🪙</div><span>EconomyBot</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-nav-link="home">Home</a></li>
+        <li><a href="commands.html" data-nav-link="commands">Commands</a></li>
+        <li><a href="guide.html" data-nav-link="guide">Guide</a></li>
+        <li><a href="premium.html" data-nav-link="premium">Premium</a></li>
+        <li><a href="status.html" data-nav-link="status">Status</a></li>
+      </ul>
+      <div class="nav-cta"><a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm">+ Add to Discord</a></div>
+      <button id="nav-mobile-toggle" class="nav-mobile-toggle"><span class="toggle-icon">☰</span></button>
+    </div>
+  </nav>
+  <div id="nav-drawer" class="nav-drawer">
+    <a href="index.html" data-nav-link="home">🏠 Home</a>
+    <a href="commands.html" data-nav-link="commands">⚡ Commands</a>
+    <a href="guide.html" data-nav-link="guide">📖 Guide</a>
+    <a href="premium.html" data-nav-link="premium">👑 Premium</a>
+    <a href="status.html" data-nav-link="status">📊 Status</a>
+    <a href="https://discord.com" target="_blank" style="background:var(--accent-subtle);border-color:var(--accent);color:var(--accent);">+ Add to Discord</a>
+  </div>
+
+  <section class="status-hero">
+    <div class="container">
+      <div class="section-eyebrow" style="margin-bottom:14px; border-color:var(--pink); background:rgba(235,69,158,0.1); color:var(--pink);">Live Dashboard</div>
+      <h1 class="display-lg" style="margin-bottom:8px;">📊 System Status</h1>
+      <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:40px;">
+        <span class="status-dot-pulse"></span>
+        All systems operational · Last updated <span id="last-updated">just now</span>
+      </p>
+
+      <!-- Status grid -->
+      <div class="status-grid reveal">
+        <div class="status-item">
+          <div class="status-indicator green">🤖</div>
+          <div>
+            <div class="status-label">Bot Status</div>
+            <div class="status-value" style="color:var(--green)">Online</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <div class="status-indicator green">⚡</div>
+          <div>
+            <div class="status-label">API Latency</div>
+            <div class="status-value" style="color:var(--green)">42ms</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <div class="status-indicator green">🗄️</div>
+          <div>
+            <div class="status-label">Database</div>
+            <div class="status-value" style="color:var(--green)">Healthy</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <div class="status-indicator green">📡</div>
+          <div>
+            <div class="status-label">Shard Cluster</div>
+            <div class="status-value">6/6 Online</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <div class="status-indicator green">💾</div>
+          <div>
+            <div class="status-label">Cache Layer</div>
+            <div class="status-value" style="color:var(--green)">Optimal</div>
+          </div>
+        </div>
+        <div class="status-item">
+          <div class="status-indicator green">🔒</div>
+          <div>
+            <div class="status-label">Payment API</div>
+            <div class="status-value" style="color:var(--green)">Operational</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Uptime bar -->
+      <div class="uptime-section reveal">
+        <div class="uptime-header">
+          <div class="uptime-title">90-Day Uptime</div>
+          <div class="uptime-percentage">99.94%</div>
+        </div>
+        <div class="uptime-bar-container" id="uptime-bar"></div>
+        <div class="uptime-labels">
+          <span class="uptime-label">90 days ago</span>
+          <span class="uptime-label">Today</span>
+        </div>
+        <div class="uptime-legend">
+          <div class="uptime-legend-item"><div class="uptime-legend-dot" style="background:var(--green)"></div>Operational</div>
+          <div class="uptime-legend-item"><div class="uptime-legend-dot" style="background:var(--yellow)"></div>Degraded</div>
+          <div class="uptime-legend-item"><div class="uptime-legend-dot" style="background:var(--red)"></div>Outage</div>
+        </div>
+      </div>
+
+      <!-- Recent incidents -->
+      <h2 class="display-md" style="margin-bottom:20px;">Recent Incidents</h2>
+      <div class="incident-list reveal">
+        <div class="incident">
+          <div class="status-indicator-dot" style="width:10px;height:10px;border-radius:50%;background:var(--green);margin-top:5px;flex-shrink:0;box-shadow:0 0 6px var(--green)"></div>
+          <div>
+            <div class="incident-date">February 8, 2025</div>
+            <div class="incident-title">Scheduled Maintenance Complete</div>
+            <div class="incident-desc">Database migration for improved query performance. 23-minute planned downtime. All systems restored and running faster than before.</div>
+          </div>
+        </div>
+        <div class="incident">
+          <div class="status-indicator-dot" style="width:10px;height:10px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;"></div>
+          <div>
+            <div class="incident-date">January 24, 2025</div>
+            <div class="incident-title">Elevated Response Times — Resolved</div>
+            <div class="incident-desc">Shard cluster 3 experienced elevated latency (400ms+) for 45 minutes due to Discord API instability. Affected ~18% of servers. Fully resolved.</div>
+          </div>
+        </div>
+        <div style="text-align:center;padding:16px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);font-size:0.85rem;color:var(--text-muted);">
+          No incidents in the last 60 days ✓
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="section" id="roadmap" style="background:var(--bg-surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow" style="border-color:var(--pink);background:rgba(235,69,158,0.1);color:var(--pink);">Roadmap</div>
+        <h2 class="display-md">What We're Building</h2>
+        <p class="section-desc">Public roadmap. Vote on features that matter to you. Your votes directly influence what gets built next.</p>
+      </div>
+      <div class="roadmap-grid reveal">
+        <div class="roadmap-col">
+          <div class="roadmap-col-header"><span>🔨</span> In Progress</div>
+          <div class="roadmap-col-body">
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Pet System</div>
+              Adopt virtual pets that help you earn coins. Level them up, feed them, and show them off in your profile.
+              <div class="roadmap-task-tags"><span class="tag tag-blue">Phase 2</span></div>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Clan Wars</div>
+              Form clans with friends and compete in weekly economy wars for massive coin prizes.
+              <div class="roadmap-task-tags"><span class="tag tag-blue">Phase 2</span></div>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Advanced Profile Customization</div>
+              More banner styles, animated backgrounds, and custom bio text for Premium users.
+              <div class="roadmap-task-tags"><span class="tag tag-gold">Premium</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-col">
+          <div class="roadmap-col-header"><span>📋</span> Planned</div>
+          <div class="roadmap-col-body">
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Real Estate System</div>
+              Buy properties in your server. Collect rent from other users and build a real estate empire.
+              <div class="roadmap-task-tags"><span class="tag tag-green">117 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Auction House</div>
+              List items for auction. Let the server bid. Dynamic, exciting, and great for rare items.
+              <div class="roadmap-task-tags"><span class="tag tag-green">89 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Achievement System</div>
+              Earn badges for milestones like "First Million" or "Crime Spree". Show them on your profile.
+              <div class="roadmap-task-tags"><span class="tag tag-green">64 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-col">
+          <div class="roadmap-col-header"><span>💡</span> Ideas (Vote to Prioritize)</div>
+          <div class="roadmap-col-body">
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Economy Discord App</div>
+              A standalone companion app with push notifications, stats, and daily reminders.
+              <div class="roadmap-task-tags"><span class="tag tag-blue">42 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Seasonal Economy Events</div>
+              Monthly themed economies: Christmas markets, Halloween crime, Spring trading festivals.
+              <div class="roadmap-task-tags"><span class="tag tag-blue">38 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+            <div class="roadmap-task">
+              <div class="roadmap-task-title">Cross-Server Trading</div>
+              Trade items between different Discord servers through a shared marketplace.
+              <div class="roadmap-task-tags"><span class="tag tag-blue">29 votes</span></div>
+              <button class="vote-btn" onclick="voteFeature(this)">▲ Vote</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="section" id="support">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow" style="border-color:var(--pink);background:rgba(235,69,158,0.1);color:var(--pink);">Help</div>
+        <h2 class="display-md">Support Resources</h2>
+        <p class="section-desc">Need help? We've got multiple ways to get answers fast.</p>
+      </div>
+      <div class="support-grid reveal">
+        <div class="support-card">
+          <div class="support-icon">💬</div>
+          <div class="support-title">Discord Server</div>
+          <div class="support-desc">Join our official Discord for real-time support, bug reports, and feature discussions. Usually get a response within hours.</div>
+          <a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm" style="align-self:flex-start;">Join Server →</a>
+        </div>
+        <div class="support-card">
+          <div class="support-icon">📚</div>
+          <div class="support-title">Documentation</div>
+          <div class="support-desc">Our complete guide covers everything from setup to advanced strategies. Search for your specific question here first.</div>
+          <a href="guide.html" class="btn btn-secondary btn-sm" style="align-self:flex-start;">Read the Guide →</a>
+        </div>
+        <div class="support-card">
+          <div class="support-icon">🐛</div>
+          <div class="support-title">Bug Reports</div>
+          <div class="support-desc">Found a bug? Please report it! Use the /bugreport command in Discord for the fastest response. Include steps to reproduce.</div>
+          <button class="btn btn-secondary btn-sm" style="align-self:flex-start;" onclick="window.showToast('Use /bugreport in your Discord server!')">Submit Bug →</button>
+        </div>
+        <div class="support-card">
+          <div class="support-icon">✉️</div>
+          <div class="support-title">Contact Form</div>
+          <div class="support-desc">For billing, premium issues, or sensitive matters, use the form below. We respond to all emails within 48 hours.</div>
+          <button class="btn btn-secondary btn-sm" style="align-self:flex-start;" onclick="window.openModal('contact-modal')">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Changelog -->
+  <section class="section" id="changelog" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow" style="border-color:var(--pink);background:rgba(235,69,158,0.1);color:var(--pink);">History</div>
+        <h2 class="display-md">Changelog</h2>
+        <p class="section-desc">Every update, tracked. We ship improvements and fixes every week.</p>
+      </div>
+      <div class="changelog-list reveal">
+        <div class="changelog-entry">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.8.0</span>
+            <span class="changelog-date">February 5, 2025</span>
+            <span class="tag tag-blue">Major Update</span>
+          </div>
+          <div class="changelog-body">
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Added Stock Market system with 5 tradeable virtual stocks</div>
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> New /invest command with portfolio tracking and dividend system</div>
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Elite profile cards now support GIF animations</div>
+            <div class="changelog-item"><span class="changelog-badge badge-balance">Balance</span> Increased bank interest from 2.0% to 2.5% daily</div>
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Fixed /trade confirmation not working on mobile Discord</div>
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Resolved rare crash on /blackjack double-down action</div>
+          </div>
+        </div>
+
+        <div class="changelog-entry">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.7.3</span>
+            <span class="changelog-date">January 18, 2025</span>
+          </div>
+          <div class="changelog-body">
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Fixed daily streak not resetting correctly at midnight UTC</div>
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Resolved inventory display bug showing wrong item quantities</div>
+            <div class="changelog-item"><span class="changelog-badge badge-balance">Balance</span> Reduced /crime fines from 30% to 20% of wallet on fail</div>
+          </div>
+        </div>
+
+        <div class="changelog-entry">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.7.0</span>
+            <span class="changelog-date">January 3, 2025</span>
+            <span class="tag tag-green">Feature Release</span>
+          </div>
+          <div class="changelog-body">
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Hub v2: Completely redesigned main economy hub interface</div>
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Added /trivia command with 500+ questions across 8 categories</div>
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Seasonal holiday economy event — limited items now in store</div>
+            <div class="changelog-item"><span class="changelog-badge badge-balance">Balance</span> XP gains from work increased by 15% across all job tiers</div>
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Performance improvements — command response times 2x faster</div>
+          </div>
+        </div>
+
+        <div class="changelog-entry">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.6.x</span>
+            <span class="changelog-date">December 2024</span>
+          </div>
+          <div class="changelog-body">
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Introduced Supporter and Elite premium tiers</div>
+            <div class="changelog-item"><span class="changelog-badge badge-feature">Feature</span> Added /duel PvP command for head-to-head coin battles</div>
+            <div class="changelog-item"><span class="changelog-badge badge-fix">Fix</span> Multiple stability fixes post-sharding migration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="modal-overlay">
+    <div class="modal" style="max-width:520px;text-align:left;">
+      <h3 class="display-md" style="margin-bottom:8px;">📧 Contact Us</h3>
+      <p style="color:var(--text-secondary);margin-bottom:24px;font-size:0.875rem;">For billing and premium issues. We reply within 48 hours.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+        <div>
+          <label style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px;">Your Discord username</label>
+          <input type="text" placeholder="username#0000" style="width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text-primary);font-size:0.875rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px;">Message</label>
+          <textarea rows="4" placeholder="Describe your issue..." style="width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text-primary);font-size:0.875rem;outline:none;resize:vertical;font-family:inherit;"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-secondary btn-sm" onclick="window.closeModal('contact-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="window.closeModal('contact-modal'); window.showToast('✓ Message sent! We\'ll reply within 48 hours.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><div class="logo-icon">🪙</div><span>EconomyBot</span></div>
+          <p class="tagline">The most powerful Discord economy bot.</p>
+          <div class="footer-social"><a href="#" class="social-btn">⚙️</a><a href="#" class="social-btn">🐦</a><a href="#" class="social-btn">🐙</a></div>
+        </div>
+        <div><div class="footer-heading">Product</div><ul class="footer-links"><li><a href="commands.html">Commands</a></li><li><a href="guide.html">Guide</a></li><li><a href="premium.html">Premium</a></li><li><a href="status.html">Status</a></li></ul></div>
+        <div><div class="footer-heading">Resources</div><ul class="footer-links"><li><a href="guide.html">Getting Started</a></li><li><a href="status.html#changelog">Changelog</a></li><li><a href="status.html#roadmap">Roadmap</a></li></ul></div>
+        <div><div class="footer-heading">Legal</div><ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 EconomyBot. All rights reserved.</p>
+        <div class="built-badge">⚡ Built with Discord Components V2</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/main.js"></script>
+  <script>
+    // Uptime bar
+    (function buildUptimeBar() {
+      const bar = document.getElementById('uptime-bar');
+      if (!bar) return;
+      const days = 90;
+      const statuses = [];
+      for (let i = 0; i < days; i++) {
+        const r = Math.random();
+        statuses.push(r > 0.03 ? 'up' : r > 0.015 ? 'partial' : 'down');
+      }
+      statuses[12] = 'partial';
+      statuses[43] = 'down';
+      statuses[44] = 'partial';
+
+      statuses.forEach((s, i) => {
+        const day = document.createElement('div');
+        day.className = 'uptime-day ' + s;
+        day.title = `Day ${i + 1}: ${s === 'up' ? 'Operational' : s === 'partial' ? 'Degraded' : 'Outage'}`;
+        bar.appendChild(day);
+      });
+    })();
+
+    // Last updated
+    const updateEl = document.getElementById('last-updated');
+    if (updateEl) {
+      const now = new Date();
+      updateEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Vote feature
+    let voted = new Set();
+    window.voteFeature = function(btn) {
+      const id = btn.closest('.roadmap-task').querySelector('.roadmap-task-title').textContent;
+      if (voted.has(id)) {
+        window.showToast('You already voted for this feature!');
+        return;
+      }
+      voted.add(id);
+      btn.classList.add('voted');
+      btn.textContent = '✓ Voted!';
+      window.showToast('Thanks for voting! Your feedback shapes our roadmap.');
+    };
+  </script>
+</body>
+</html>

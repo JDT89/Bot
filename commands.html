@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commands — EconomyBot</title>
+  <meta name="description" content="Browse all EconomyBot commands with search and filtering. Economy, games, social, and admin commands.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    .commands-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      padding-top: 96px;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 96px);
+      overflow-y: auto;
+      padding: 24px 0;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+    .search-wrap {
+      padding: 0 0 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .search-input-wrap {
+      position: relative;
+    }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-muted); }
+    .search-input {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px 10px 36px;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .sidebar-section { margin-bottom: 24px; }
+    .sidebar-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 0 8px;
+      margin-bottom: 4px;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+      width: 100%;
+      text-align: left;
+      background: none;
+    }
+    .sidebar-link:hover { color: var(--text-primary); background: var(--bg-elevated); }
+    .sidebar-link.active { color: var(--accent); background: var(--accent-subtle); font-weight: 600; }
+    .sidebar-count {
+      background: var(--bg-overlay);
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .sidebar-link.active .sidebar-count { background: var(--accent); color: white; }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+    }
+    .filter-pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-pill.active { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+
+    /* ── Main content ────────────────────────────────────── */
+    .commands-main {
+      padding: 24px 0 64px;
+    }
+    .commands-header { margin-bottom: 40px; }
+    .commands-header h1 { margin-bottom: 8px; }
+    .commands-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .view-toggle {
+      display: flex;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-left: auto;
+    }
+    .view-toggle-btn {
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .view-toggle-btn.active { background: var(--accent); color: white; }
+
+    /* ── Category section ────────────────────────────────── */
+    .category-section { margin-bottom: 48px; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .category-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .category-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .category-count { color: var(--text-muted); font-size: 0.875rem; }
+
+    /* ── Command Card ─────────────────────────────────────── */
+    .command-cards { display: flex; flex-direction: column; gap: 12px; }
+    .command-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: all 0.2s ease;
+    }
+    .command-card:hover {
+      border-color: var(--border-bright);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .command-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .command-name {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--accent);
+      display: inline-block;
+    }
+    .command-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .command-desc {
+      margin-top: 10px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .command-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .command-meta-info { display: flex; gap: 16px; flex-wrap: wrap; }
+    .meta-item { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+    .command-actions { display: flex; gap: 8px; }
+    .cmd-action-btn {
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cmd-action-btn:hover { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+
+    /* Hub tree */
+    .hub-tree {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-top: 48px;
+    }
+    .tree-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
+    .tree-node {
+      margin-left: 20px;
+      border-left: 1px dashed var(--border);
+      padding-left: 16px;
+    }
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      font-size: 0.875rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.15s ease;
+    }
+    .tree-item:hover { color: var(--accent); }
+    .tree-item .tree-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: var(--bg-elevated);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .tree-root {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-muted);
+      display: none;
+    }
+    .no-results.visible { display: block; }
+
+    @media (max-width: 900px) {
+      .commands-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; padding: 24px; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border); margin-top: 80px; }
+    }
+  </style>
+</head>
+<body class="page-commands">
+
+  <!-- Nav (same across all pages) -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🪙</div>
+        <span>EconomyBot</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-nav-link="home">Home</a></li>
+        <li><a href="commands.html" data-nav-link="commands">Commands</a></li>
+        <li><a href="guide.html" data-nav-link="guide">Guide</a></li>
+        <li><a href="premium.html" data-nav-link="premium">Premium</a></li>
+        <li><a href="status.html" data-nav-link="status">Status</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm">+ Add to Discord</a>
+      </div>
+      <button id="nav-mobile-toggle" class="nav-mobile-toggle"><span class="toggle-icon">☰</span></button>
+    </div>
+  </nav>
+  <div id="nav-drawer" class="nav-drawer">
+    <a href="index.html" data-nav-link="home">🏠 Home</a>
+    <a href="commands.html" data-nav-link="commands">⚡ Commands</a>
+    <a href="guide.html" data-nav-link="guide">📖 Guide</a>
+    <a href="premium.html" data-nav-link="premium">👑 Premium</a>
+    <a href="status.html" data-nav-link="status">📊 Status</a>
+    <a href="https://discord.com" target="_blank" style="background:var(--accent-subtle);border-color:var(--accent);color:var(--accent);">+ Add to Discord</a>
+  </div>
+
+  <div class="container">
+    <div class="commands-layout">
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="search-wrap">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="cmd-search" class="search-input" placeholder="Search commands...">
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Categories</div>
+          <button class="sidebar-link active" data-category="all" onclick="filterCategory('all', this)">
+            <span>All Commands</span>
+            <span class="sidebar-count">24</span>
+          </button>
+          <button class="sidebar-link" data-category="economy" onclick="filterCategory('economy', this)">
+            <span>💰 Economy</span>
+            <span class="sidebar-count">10</span>
+          </button>
+          <button class="sidebar-link" data-category="social" onclick="filterCategory('social', this)">
+            <span>🤝 Social</span>
+            <span class="sidebar-count">5</span>
+          </button>
+          <button class="sidebar-link" data-category="games" onclick="filterCategory('games', this)">
+            <span>🎮 Games</span>
+            <span class="sidebar-count">6</span>
+          </button>
+          <button class="sidebar-link" data-category="admin" onclick="filterCategory('admin', this)">
+            <span>⚙️ Admin</span>
+            <span class="sidebar-count">3</span>
+          </button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Quick Filters</div>
+          <div class="filter-pills">
+            <div class="filter-pill" data-filter="no-cooldown" onclick="toggleFilter(this)">No Cooldown</div>
+            <div class="filter-pill" data-filter="money" onclick="toggleFilter(this)">Money Making</div>
+            <div class="filter-pill" data-filter="risky" onclick="toggleFilter(this)">Risky</div>
+            <div class="filter-pill" data-filter="social" onclick="toggleFilter(this)">Social</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="commands-main">
+        <div class="commands-header reveal">
+          <h1 class="display-md" style="margin-bottom:8px;">⚡ Commands</h1>
+          <div class="commands-meta">
+            <span style="color:var(--text-secondary); font-size:0.875rem;">24 commands across 4 categories</span>
+            <div class="view-toggle">
+              <button class="view-toggle-btn active" onclick="setView('slash', this)">Slash</button>
+              <button class="view-toggle-btn" onclick="setView('hub', this)">Hub</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="no-results" class="no-results">
+          <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+          <p>No commands found. Try a different search.</p>
+        </div>
+
+        <!-- Economy -->
+        <div class="category-section" id="cat-economy" data-section="economy">
+          <div class="category-header">
+            <div class="category-icon">💰</div>
+            <div>
+              <div class="category-title">Economy</div>
+              <div class="category-count">10 commands</div>
+            </div>
+          </div>
+          <div class="command-cards" id="economy-cards">
+
+            <div class="command-card" data-tags="no-cooldown,money">
+              <div class="command-card-header">
+                <code class="command-name">/economy</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">No Cooldown</span>
+                </div>
+              </div>
+              <p class="command-desc">Opens your personal economy hub — the central interface for all economy actions. Shows your balance, level, and quick access to all features.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">📊 Main hub</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/economy', '✓ Copied /economy')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="money">
+              <div class="command-card-header">
+                <code class="command-name">/work</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">Money Making</span>
+                  <span class="tag tag-blue">Safe</span>
+                </div>
+              </div>
+              <p class="command-desc">Work a job to earn a steady income. Your earnings scale with your level and unlock new jobs as you progress. Use from the hub or directly.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ 1 hour cooldown</span>
+                  <span class="meta-item">💰 100–2,000 coins</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/work', '✓ Copied /work')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="risky,money">
+              <div class="command-card-header">
+                <code class="command-name">/crime</code>
+                <div class="command-tags">
+                  <span class="tag tag-red">Risky</span>
+                  <span class="tag tag-yellow">High Reward</span>
+                </div>
+              </div>
+              <p class="command-desc">Attempt a criminal act for high rewards, but risk getting caught and losing coins or items. Crime pays — if you don't get caught.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ 2 hour cooldown</span>
+                  <span class="meta-item">💰 500–8,000 coins or -20% wallet</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/crime', '✓ Copied /crime')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="money">
+              <div class="command-card-header">
+                <code class="command-name">/search</code>
+                <div class="command-tags">
+                  <span class="tag tag-blue">Interactive</span>
+                </div>
+              </div>
+              <p class="command-desc">Search various locations for hidden coins and items. Each location has different risk/reward profiles. Opens a location selection menu.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ 30 min cooldown</span>
+                  <span class="meta-item">📍 12 locations</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/search', '✓ Copied /search')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="no-cooldown,money">
+              <div class="command-card-header">
+                <code class="command-name">/bank</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">No Cooldown</span>
+                </div>
+              </div>
+              <p class="command-desc">Manage your bank account. Deposit coins for safekeeping, earn interest over time, or withdraw for spending. Protects against robbery.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">📈 2.5% daily interest</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/bank', '✓ Copied /bank')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name">/market</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">No Cooldown</span>
+                </div>
+              </div>
+              <p class="command-desc">Access the server marketplace to buy and sell items. Prices fluctuate based on supply and demand. Spot trading opportunities!</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">🛒 100+ items</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/market', '✓ Copied /market')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="money">
+              <div class="command-card-header">
+                <code class="command-name">/daily</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">Money Making</span>
+                </div>
+              </div>
+              <p class="command-desc">Claim your daily reward. Build streaks for bonus multipliers. Premium users get enhanced daily rewards.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ 24 hour cooldown</span>
+                  <span class="meta-item">🔥 Streak multiplier</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/daily', '✓ Copied /daily')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name">/balance</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">No Cooldown</span>
+                </div>
+              </div>
+              <p class="command-desc">Check your wallet and bank balance at a glance. Add @user to check someone else's balance. Quick view of net worth.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">👤 Works on others</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/balance', '✓ Copied /balance')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="money,risky">
+              <div class="command-card-header">
+                <code class="command-name">/invest</code>
+                <div class="command-tags">
+                  <span class="tag tag-yellow">Risky</span>
+                  <span class="tag tag-green">Money Making</span>
+                </div>
+              </div>
+              <p class="command-desc">Invest coins in virtual stocks. Prices rise and fall daily based on server activity. Hold for dividends or sell for profit.</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">📈 5 stocks available</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/invest', '✓ Copied /invest')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name">/leaderboard</code>
+                <div class="command-tags">
+                  <span class="tag tag-green">No Cooldown</span>
+                </div>
+              </div>
+              <p class="command-desc">See the richest players in your server. Filter by wallet, bank, total net worth, or XP level. Are you on top?</p>
+              <div class="command-footer">
+                <div class="command-meta-info">
+                  <span class="meta-item">⏱️ No cooldown</span>
+                  <span class="meta-item">🏆 Top 20 players</span>
+                </div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/leaderboard', '✓ Copied /leaderboard')">📋 Copy</button>
+                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="category-section" id="cat-social" data-section="social">
+          <div class="category-header">
+            <div class="category-icon" style="background:rgba(87,242,135,0.1)">🤝</div>
+            <div>
+              <div class="category-title">Social</div>
+              <div class="category-count">5 commands</div>
+            </div>
+          </div>
+          <div class="command-cards" id="social-cards">
+            <div class="command-card" data-tags="social,money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--green);border-color:var(--green);background:rgba(87,242,135,0.08)">/pay</code>
+                <div class="command-tags"><span class="tag tag-green">Social</span></div>
+              </div>
+              <p class="command-desc">Send coins to another user. Simple peer-to-peer transfers with receipt confirmation for both parties.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ No cooldown</span><span class="meta-item">👥 P2P transfer</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/pay @user amount', '✓ Copied /pay')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="social,risky">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--green);border-color:var(--green);background:rgba(87,242,135,0.08)">/rob</code>
+                <div class="command-tags"><span class="tag tag-red">Risky</span><span class="tag tag-green">Social</span></div>
+              </div>
+              <p class="command-desc">Attempt to rob another user's wallet. Success rate depends on your level vs theirs. Fail and pay a fine instead.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 4 hour cooldown</span><span class="meta-item">⚖️ Level-based odds</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/rob @user', '✓ Copied /rob')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="social">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--green);border-color:var(--green);background:rgba(87,242,135,0.08)">/trade</code>
+                <div class="command-tags"><span class="tag tag-green">Social</span></div>
+              </div>
+              <p class="command-desc">Open a trading UI with another user to swap coins, items, and more. Both parties must confirm before the trade completes.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ No cooldown</span><span class="meta-item">🔄 Secure 2-way confirmation</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/trade @user', '✓ Copied /trade')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="social,money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--green);border-color:var(--green);background:rgba(87,242,135,0.08)">/giveaway</code>
+                <div class="command-tags"><span class="tag tag-green">Social</span></div>
+              </div>
+              <p class="command-desc">Start a coin giveaway in the channel! Set the amount, duration, and number of winners. Great for server events.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 6 hour cooldown</span><span class="meta-item">🎉 Up to 5 winners</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/giveaway', '✓ Copied /giveaway')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="social,no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--green);border-color:var(--green);background:rgba(87,242,135,0.08)">/profile</code>
+                <div class="command-tags"><span class="tag tag-green">No Cooldown</span></div>
+              </div>
+              <p class="command-desc">View a user's full economy profile: balance, level, inventory value, job history, and recent activity. Premium users get stylized profiles.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ No cooldown</span><span class="meta-item">👤 View others too</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/profile', '✓ Copied /profile')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games -->
+        <div class="category-section" id="cat-games" data-section="games">
+          <div class="category-header">
+            <div class="category-icon" style="background:rgba(254,231,92,0.1)">🎮</div>
+            <div>
+              <div class="category-title">Games</div>
+              <div class="category-count">6 commands</div>
+            </div>
+          </div>
+          <div class="command-cards" id="games-cards">
+            <div class="command-card" data-tags="risky,money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/gamble</code>
+                <div class="command-tags"><span class="tag tag-red">Risky</span><span class="tag tag-yellow">High Reward</span></div>
+              </div>
+              <p class="command-desc">Bet coins on a coin flip or dice roll. Simple, fast, and addictive. House edge applies. Bet responsibly!</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 15s cooldown</span><span class="meta-item">💎 Up to 2x win</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/gamble amount', '✓ Copied /gamble')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="risky,money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/blackjack</code>
+                <div class="command-tags"><span class="tag tag-yellow">High Reward</span></div>
+              </div>
+              <p class="command-desc">Play a full game of blackjack against the dealer. Hit, stand, double down, or split. Full button-based interface.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 30s cooldown</span><span class="meta-item">🃏 Up to 2.5x win</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/blackjack amount', '✓ Copied /blackjack')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="risky,money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/slots</code>
+                <div class="command-tags"><span class="tag tag-red">Risky</span><span class="tag tag-gold">Jackpot</span></div>
+              </div>
+              <p class="command-desc">Spin the slot machine. Match symbols for different payouts. Hit the jackpot for a massive server-wide announcement!</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 1 min cooldown</span><span class="meta-item">🎰 Up to 50x jackpot</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/slots amount', '✓ Copied /slots')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="social,risky">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/duel</code>
+                <div class="command-tags"><span class="tag tag-green">Social</span><span class="tag tag-red">Risky</span></div>
+              </div>
+              <p class="command-desc">Challenge another user to a coin duel. The winner takes all. Tense, exciting, and great for server culture.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 10 min cooldown</span><span class="meta-item">👥 PvP</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/duel @user amount', '✓ Copied /duel')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="money,risky">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/scratch</code>
+                <div class="command-tags"><span class="tag tag-yellow">Money Making</span></div>
+              </div>
+              <p class="command-desc">Buy a scratch card and reveal your prizes. Different card tiers with different price/reward ratios. Satisfying visual scratch animation.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 2 hour cooldown</span><span class="meta-item">🎟️ 3 card tiers</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/scratch', '✓ Copied /scratch')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="money">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--yellow);border-color:var(--yellow);background:rgba(254,231,92,0.08)">/trivia</code>
+                <div class="command-tags"><span class="tag tag-blue">Interactive</span><span class="tag tag-green">Money Making</span></div>
+              </div>
+              <p class="command-desc">Answer trivia questions for coin rewards. Categories include history, science, gaming, and more. Faster answers earn bigger bonuses.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">⏱️ 5 min cooldown</span><span class="meta-item">🧠 500 questions</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/trivia', '✓ Copied /trivia')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin -->
+        <div class="category-section" id="cat-admin" data-section="admin">
+          <div class="category-header">
+            <div class="category-icon" style="background:rgba(235,69,158,0.1)">⚙️</div>
+            <div>
+              <div class="category-title">Admin</div>
+              <div class="category-count">3 commands</div>
+            </div>
+          </div>
+          <div class="command-cards">
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--pink);border-color:var(--pink);background:rgba(235,69,158,0.08)">/config</code>
+                <div class="command-tags"><span class="tag" style="background:rgba(235,69,158,0.1);color:var(--pink);border-color:rgba(235,69,158,0.3)">Admin Only</span></div>
+              </div>
+              <p class="command-desc">Configure EconomyBot for your server. Set cooldown multipliers, disable/enable commands, set currency name, and more.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">🔒 Requires Manage Server</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/config', '✓ Copied /config')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--pink);border-color:var(--pink);background:rgba(235,69,158,0.08)">/addcoins</code>
+                <div class="command-tags"><span class="tag" style="background:rgba(235,69,158,0.1);color:var(--pink);border-color:rgba(235,69,158,0.3)">Admin Only</span></div>
+              </div>
+              <p class="command-desc">Grant coins to a specific user or all users in the server. Useful for events, rewards, or onboarding new members.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">🔒 Requires Administrator</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/addcoins @user amount', '✓ Copied /addcoins')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="command-card" data-tags="no-cooldown">
+              <div class="command-card-header">
+                <code class="command-name" style="color:var(--pink);border-color:var(--pink);background:rgba(235,69,158,0.08)">/reset</code>
+                <div class="command-tags"><span class="tag tag-red">Destructive</span></div>
+              </div>
+              <p class="command-desc">Reset the economy for your server or a specific user. Requires double confirmation. This action is irreversible.</p>
+              <div class="command-footer">
+                <div class="command-meta-info"><span class="meta-item">🔒 Requires Administrator</span><span class="meta-item">⚠️ Irreversible</span></div>
+                <div class="command-actions">
+                  <button class="cmd-action-btn" onclick="window.copyText('/reset', '✓ Copied /reset')">📋 Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hub tree -->
+        <div class="hub-tree reveal">
+          <div class="tree-title">🗺️ Hub Navigation Map</div>
+          <div class="tree-root">📱 Main Hub (/economy)</div>
+          <div class="tree-node">
+            <div class="tree-item">💼 <span class="tree-label">Work</span> → Job selection → Earnings report</div>
+            <div class="tree-item">🔍 <span class="tree-label">Search</span> → Location picker → Find items/coins</div>
+            <div class="tree-item">⚔️ <span class="tree-label">Crime</span> → Risk assessment → Success/fail</div>
+            <div class="tree-item">🏦 <span class="tree-label">Bank</span> → Deposit / Withdraw / Interest</div>
+            <div class="tree-item">🛒 <span class="tree-label">Market</span> → Browse / Buy / Sell / Trends</div>
+            <div class="tree-item">📦 <span class="tree-label">Inventory</span> → Items / Equip / Sell / Trade</div>
+            <div class="tree-item">🎮 <span class="tree-label">Games</span> → Blackjack / Slots / Gamble / Trivia</div>
+            <div class="tree-item">👤 <span class="tree-label">Profile</span> → Stats / History / Level / Badges</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Demo Modal -->
+  <div id="demo-modal" class="modal-overlay">
+    <div class="modal">
+      <div style="font-size:48px; margin-bottom:16px;">⚡</div>
+      <h3 class="display-md" style="margin-bottom:12px;">Add the bot first!</h3>
+      <p style="color:var(--text-secondary); margin-bottom:28px; line-height:1.6;">Add EconomyBot to your server to try this command for real. Takes less than 30 seconds.</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="https://discord.com" target="_blank" class="btn btn-primary">+ Add to Discord</a>
+        <button class="btn btn-secondary" onclick="window.closeModal('demo-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><div class="logo-icon">🪙</div><span>EconomyBot</span></div>
+          <p class="tagline">The most powerful Discord economy bot with a hub-based visual interface.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn">⚙️</a>
+            <a href="#" class="social-btn">🐦</a>
+            <a href="#" class="social-btn">🐙</a>
+          </div>
+        </div>
+        <div><div class="footer-heading">Product</div><ul class="footer-links"><li><a href="commands.html">Commands</a></li><li><a href="guide.html">Guide</a></li><li><a href="premium.html">Premium</a></li><li><a href="status.html">Status</a></li></ul></div>
+        <div><div class="footer-heading">Resources</div><ul class="footer-links"><li><a href="guide.html">Getting Started</a></li><li><a href="status.html#changelog">Changelog</a></li><li><a href="status.html#roadmap">Roadmap</a></li></ul></div>
+        <div><div class="footer-heading">Legal</div><ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 EconomyBot. All rights reserved.</p>
+        <div class="built-badge">⚡ Built with Discord Components V2</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/main.js"></script>
+  <script>
+    // Search + filter
+    const searchEl = document.getElementById('cmd-search');
+    let activeFilters = new Set();
+
+    function filterCommands() {
+      const query = searchEl?.value.toLowerCase() || '';
+      const cards = document.querySelectorAll('.command-card');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const name = card.querySelector('.command-name')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('.command-desc')?.textContent.toLowerCase() || '';
+        const tags = card.dataset.tags || '';
+
+        const matchSearch = !query || name.includes(query) || desc.includes(query);
+        const matchFilter = activeFilters.size === 0 || [...activeFilters].every(f => tags.includes(f));
+
+        const show = matchSearch && matchFilter;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('no-results')?.classList.toggle('visible', visible === 0);
+    }
+
+    searchEl?.addEventListener('input', filterCommands);
+
+    window.toggleFilter = function(pill) {
+      const filter = pill.dataset.filter;
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        pill.classList.remove('active');
+      } else {
+        activeFilters.add(filter);
+        pill.classList.add('active');
+      }
+      filterCommands();
+    };
+
+    window.filterCategory = function(cat, btn) {
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.category-section').forEach(sec => {
+        sec.style.display = (cat === 'all' || sec.dataset.section === cat) ? '' : 'none';
+      });
+    };
+
+    window.setView = function(view, btn) {
+      document.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const names = document.querySelectorAll('.command-name');
+      if (view === 'hub') {
+        names.forEach(n => {
+          n.textContent = n.textContent.replace('/', '🔘 ');
+        });
+        window.showToast('Showing hub button names');
+      } else {
+        names.forEach(n => {
+          if (!n.textContent.startsWith('/')) n.textContent = '/' + n.textContent.replace('🔘 ', '');
+        });
+        window.showToast('Showing slash command names');
+      }
+    };
+  </script>
+</body>
+</html>

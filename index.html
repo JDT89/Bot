@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economy Bot — The Discord Economy Bot Reimagined</title>
+  <meta name="description" content="The most powerful and beautiful Discord economy bot. Hub-based interface, player-driven markets, and deep progression systems.">
+  <meta property="og:title" content="Economy Bot — The Discord Economy Bot Reimagined">
+  <meta property="og:description" content="Hub-based interface, player-driven markets, and deep progression. Add to your server today.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#5865F2">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪙</text></svg>">
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 24px 80px;
+      text-align: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(88,101,242,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(87,242,135,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(250,166,26,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(88,101,242,0.12);
+      border: 1px solid rgba(88,101,242,0.3);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7289ff;
+      margin-bottom: 24px;
+      animation: fade-up 0.6s ease forwards;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+      animation: fade-up 0.6s ease 0.1s forwards;
+      opacity: 0;
+    }
+    .hero-title .line-1 { display: block; color: var(--text-primary); }
+    .hero-title .line-2 {
+      display: block;
+      background: linear-gradient(135deg, #5865F2 0%, #7289ff 40%, #57F287 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-typewriter-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+    .hero-typewriter {
+      color: var(--accent);
+      border-right: 2px solid var(--accent);
+      animation: blink 0.8s step-end infinite;
+      min-width: 10px;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      animation: fade-up 0.6s ease 0.2s forwards;
+      opacity: 0;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fade-up 0.6s ease 0.3s forwards;
+      opacity: 0;
+      margin-bottom: 64px;
+    }
+    .hero-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fade-up 0.8s ease 0.4s forwards;
+      opacity: 0;
+    }
+    .hero-mockup-inner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 80px rgba(88,101,242,0.15);
+    }
+    .mockup-bar {
+      background: var(--bg-elevated);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup-dots { display: flex; gap: 6px; }
+    .mockup-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .mockup-dot-r { background: #ed4245; }
+    .mockup-dot-y { background: #fee75c; }
+    .mockup-dot-g { background: #57f287; }
+    .mockup-title { font-size: 0.8rem; color: var(--text-muted); margin-left: 6px; font-family: var(--font-mono); }
+    .mockup-body { padding: 20px; }
+    /* Hub UI mockup inside */
+    .hub-preview {
+      background: var(--bg-elevated);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .hub-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hub-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5865F2, #57F287);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .hub-user-info .name { font-weight: 700; font-size: 0.95rem; }
+    .hub-user-info .bal { color: var(--text-secondary); font-size: 0.8rem; margin-top: 2px; }
+    .hub-balance {
+      margin-left: auto;
+      text-align: right;
+    }
+    .hub-balance .amount {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .hub-balance .label { font-size: 0.7rem; color: var(--text-muted); }
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .hub-btn {
+      background: var(--bg-overlay);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .hub-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+      transform: translateY(-2px);
+    }
+    .hub-btn .icon { font-size: 22px; margin-bottom: 6px; }
+    .hub-btn .text { font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); }
+    .hub-btn:hover .text { color: var(--accent); }
+    .hub-xp {
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--bg-overlay);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .xp-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .xp-bar { height: 6px; background: var(--bg-base); border-radius: 3px; overflow: hidden; }
+    .xp-fill {
+      height: 100%;
+      width: 68%;
+      background: linear-gradient(90deg, #5865F2, #7289ff);
+      border-radius: 3px;
+      box-shadow: 0 0 12px rgba(88,101,242,0.5);
+    }
+
+    /* ── Feature Grid ─────────────────────────────────────── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .feature-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ── Demo Section ─────────────────────────────────────── */
+    .demo-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+    .demo-header {
+      background: var(--bg-elevated);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-bot-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5865F2, #57F287);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .demo-bot-name { font-weight: 700; font-size: 0.9rem; }
+    .demo-bot-status { font-size: 0.75rem; color: var(--green); display: flex; align-items: center; gap: 4px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .demo-body { padding: 24px; }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .demo-action-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .demo-action-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+      transform: translateX(4px);
+    }
+    .demo-action-icon { font-size: 24px; flex-shrink: 0; }
+    .demo-action-title { font-weight: 600; font-size: 0.9rem; display: block; }
+    .demo-action-desc { font-size: 0.75rem; color: var(--text-secondary); display: block; margin-top: 2px; }
+    .demo-note {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .demo-note a { color: var(--accent); }
+
+    /* ── Testimonials ─────────────────────────────────────── */
+    .testimonials-carousel {
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonials-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .testimonial-card {
+      min-width: 360px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      flex-shrink: 0;
+    }
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .t-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .t-name { font-weight: 600; font-size: 0.9rem; }
+    .t-server { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .t-content { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.65; }
+    .t-stars { color: var(--gold); font-size: 0.8rem; margin-top: 12px; }
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 32px;
+    }
+    .carousel-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .carousel-btn:hover { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+    .carousel-dots { display: flex; align-items: center; gap: 6px; }
+    .carousel-dot {
+      width: 6px; height: 6px;
+      border-radius: 3px;
+      background: var(--border-bright);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .carousel-dot.active { width: 20px; background: var(--accent); }
+
+    /* ── Final CTA ────────────────────────────────────────── */
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0;
+      text-align: center;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 50% 60% at 50% 50%, rgba(88,101,242,0.2) 0%, transparent 70%);
+    }
+    .cta-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .hub-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .testimonial-card { min-width: 300px; }
+    }
+  </style>
+</head>
+<body class="page-home">
+
+  <!-- ── Navigation ────────────────────────────────────── -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🪙</div>
+        <span>EconomyBot</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-nav-link="home">Home</a></li>
+        <li><a href="commands.html" data-nav-link="commands">Commands</a></li>
+        <li><a href="guide.html" data-nav-link="guide">Guide</a></li>
+        <li><a href="premium.html" data-nav-link="premium">Premium</a></li>
+        <li><a href="status.html" data-nav-link="status">Status</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm">
+          <span>Add to Discord</span>
+          <span>→</span>
+        </a>
+      </div>
+      <button id="nav-mobile-toggle" class="nav-mobile-toggle">
+        <span class="toggle-icon">☰</span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="nav-drawer" class="nav-drawer">
+    <a href="index.html" data-nav-link="home">🏠 Home</a>
+    <a href="commands.html" data-nav-link="commands">⚡ Commands</a>
+    <a href="guide.html" data-nav-link="guide">📖 Guide</a>
+    <a href="premium.html" data-nav-link="premium">👑 Premium</a>
+    <a href="status.html" data-nav-link="status">📊 Status</a>
+    <a href="https://discord.com" target="_blank" style="background:var(--accent-subtle);border-color:var(--accent);color:var(--accent);">+ Add to Discord</a>
+  </div>
+
+  <!-- ── Hero ──────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <canvas id="hero-particles" class="hero-particles"></canvas>
+
+    <div class="hero-eyebrow">
+      <div class="hero-badge-dot"></div>
+      <span>Now Live in 12,400+ Servers</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="line-1">The Economy Bot</span>
+      <span class="line-2" id="hero-typewriter">Reimagined</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      A hub-based economy experience with player-driven markets, deep progression, and a visual interface that makes Discord feel like a game.
+    </p>
+
+    <div class="hero-cta">
+      <a href="https://discord.com" target="_blank" class="btn btn-primary btn-lg">
+        <span>+ Add to Discord</span>
+        <span>→</span>
+      </a>
+      <a href="commands.html" class="btn btn-secondary btn-lg">
+        <span>View Commands</span>
+      </a>
+    </div>
+
+    <div class="hero-mockup" data-parallax="12">
+      <div class="hero-mockup-inner">
+        <div class="mockup-bar">
+          <div class="mockup-dots">
+            <div class="mockup-dot mockup-dot-r"></div>
+            <div class="mockup-dot mockup-dot-y"></div>
+            <div class="mockup-dot mockup-dot-g"></div>
+          </div>
+          <span class="mockup-title"># economy-hub · Your Server</span>
+        </div>
+        <div class="mockup-body">
+          <div class="hub-preview">
+            <div class="hub-header">
+              <div class="hub-avatar">🎮</div>
+              <div class="hub-user-info">
+                <div class="name">CoolPlayer#1234</div>
+                <div class="bal">Level 24 · 🏆 Elite Trader</div>
+              </div>
+              <div class="hub-balance">
+                <div class="amount">⚙ 48,210</div>
+                <div class="label">wallet balance</div>
+              </div>
+            </div>
+            <div class="hub-grid">
+              <div class="hub-btn">
+                <div class="icon">💼</div>
+                <div class="text">Work</div>
+              </div>
+              <div class="hub-btn">
+                <div class="icon">🔍</div>
+                <div class="text">Search</div>
+              </div>
+              <div class="hub-btn">
+                <div class="icon">🎰</div>
+                <div class="text">Gamble</div>
+              </div>
+              <div class="hub-btn">
+                <div class="icon">🏦</div>
+                <div class="text">Bank</div>
+              </div>
+              <div class="hub-btn">
+                <div class="icon">🛒</div>
+                <div class="text">Market</div>
+              </div>
+              <div class="hub-btn">
+                <div class="icon">📦</div>
+                <div class="text">Inventory</div>
+              </div>
+            </div>
+            <div class="hub-xp">
+              <div class="xp-label">
+                <span>Level 24 Progress</span>
+                <span style="color:var(--accent)">68% to Level 25</span>
+              </div>
+              <div class="xp-bar"><div class="xp-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Live Stats Bar ─────────────────────────────────── -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item">
+        <span class="stat-value" data-counter data-target="12400" data-format="k">0</span>
+        <span class="stat-label">Servers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-counter data-target="847000" data-format="m">0</span>
+        <span class="stat-label">Users</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-counter data-target="2400000" data-format="m">0</span>
+        <span class="stat-label">Coins Circulated</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-counter data-target="94200" data-format="k">0</span>
+        <span class="stat-label">Commands Today</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Feature Grid ───────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">Features</div>
+        <h2 class="display-md">Everything you need in one hub</h2>
+        <p class="section-desc">Built to be the last economy bot you'll ever need. Intuitive, deep, and beautiful.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">🎛️</div>
+          <div class="feature-title">Visual Hub Interface</div>
+          <p class="feature-desc">No more memorizing commands. Every action lives in a clean button-driven hub that feels native to Discord.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">📈</div>
+          <div class="feature-title">Player-Driven Economy</div>
+          <p class="feature-desc">Real supply and demand. Items fluctuate in price based on what your server actually buys and sells.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Zero Learning Curve</div>
+          <p class="feature-desc">New users can start earning within 30 seconds. The interface guides them every step of the way.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">📱</div>
+          <div class="feature-title">Mobile First</div>
+          <p class="feature-desc">Every component designed for thumbs. Works beautifully whether you're on desktop or mobile Discord.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">🌟</div>
+          <div class="feature-title">Always Evolving</div>
+          <p class="feature-desc">Seasonal events, limited-time items, and holiday content keep your server economy feeling fresh year-round.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon">🗳️</div>
+          <div class="feature-title">Community Powered</div>
+          <p class="feature-desc">Vote on upcoming features. Our roadmap is public. Your suggestions have directly shaped the bot you see today.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Interactive Demo ───────────────────────────────── -->
+  <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">Try It</div>
+        <h2 class="display-md">Feel it before you install</h2>
+        <p class="section-desc">Click around the demo — this is exactly what your users will see. No commands to memorize.</p>
+      </div>
+      <div class="demo-container reveal" style="max-width: 640px; margin: 0 auto;">
+        <div class="demo-header">
+          <div class="demo-bot-avatar">🤖</div>
+          <div>
+            <div class="demo-bot-name">EconomyBot <span class="tag tag-blue" style="font-size:0.65rem; padding:2px 6px;">BOT</span></div>
+            <div class="demo-bot-status"><span class="status-dot"></span> Online · Ready to earn</div>
+          </div>
+        </div>
+        <div class="demo-body">
+          <div class="demo-grid">
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">💼</span>
+              <span>
+                <span class="demo-action-title">Work</span>
+                <span class="demo-action-desc">Earn coins safely</span>
+              </span>
+            </button>
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">🎰</span>
+              <span>
+                <span class="demo-action-title">Gamble</span>
+                <span class="demo-action-desc">High risk, high reward</span>
+              </span>
+            </button>
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">🛒</span>
+              <span>
+                <span class="demo-action-title">Marketplace</span>
+                <span class="demo-action-desc">Buy &amp; sell items</span>
+              </span>
+            </button>
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">🏦</span>
+              <span>
+                <span class="demo-action-title">Bank</span>
+                <span class="demo-action-desc">Deposit &amp; interest</span>
+              </span>
+            </button>
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">⚔️</span>
+              <span>
+                <span class="demo-action-title">Crime</span>
+                <span class="demo-action-desc">Risk it for biscuits</span>
+              </span>
+            </button>
+            <button class="demo-action-btn" onclick="window.openModal('demo-modal')">
+              <span class="demo-action-icon">👤</span>
+              <span>
+                <span class="demo-action-title">Profile</span>
+                <span class="demo-action-desc">Your stats &amp; history</span>
+              </span>
+            </button>
+          </div>
+          <p class="demo-note">Demo mode — <a href="https://discord.com" target="_blank">Add to Discord</a> to use for real ✨</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ───────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">Community</div>
+        <h2 class="display-md">Loved by thousands of servers</h2>
+        <p class="section-desc">From small friend groups to servers with 10K+ members. Here's what they're saying.</p>
+      </div>
+      <div class="testimonials-carousel reveal" id="testimonials">
+        <div class="testimonials-track" id="testimonials-track">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#5865F2,#7289ff)">Z</div>
+              <div>
+                <div class="t-name">ZephyrKing</div>
+                <div class="t-server">⚔️ RPG Realm · 4,200 members</div>
+              </div>
+            </div>
+            <p class="t-content">"We switched from MEE6 economy and never looked back. The hub interface is genuinely the best thing to happen to Discord bots. Our activity went up 300%."</p>
+            <div class="t-stars">★★★★★</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#57F287,#3dad66)">L</div>
+              <div>
+                <div class="t-name">LunaVault</div>
+                <div class="t-server">🎮 Gaming Lounge · 12K members</div>
+              </div>
+            </div>
+            <p class="t-content">"The market system is insane. People are actually trading items, prices fluctuate — it feels like a mini MMO inside Discord. My server loves it."</p>
+            <div class="t-stars">★★★★★</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#FAA61A,#f07b00)">T</div>
+              <div>
+                <div class="t-name">ThoraxBlue</div>
+                <div class="t-server">🌐 Chill Zone · 800 members</div>
+              </div>
+            </div>
+            <p class="t-content">"Even our least tech-savvy members figured it out without help. That's the magic of the hub. Setup took me 5 minutes. No docs needed."</p>
+            <div class="t-stars">★★★★★</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#EB459E,#c0356e)">P</div>
+              <div>
+                <div class="t-name">PrismWave</div>
+                <div class="t-server">🎨 Creative Hub · 2,100 members</div>
+              </div>
+            </div>
+            <p class="t-content">"The seasonal events keep everything fresh. Halloween economy update had my whole server grinding for those limited items. 10/10 bot."</p>
+            <div class="t-stars">★★★★★</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="t-avatar" style="background:linear-gradient(135deg,#5865F2,#EB459E)">N</div>
+              <div>
+                <div class="t-name">NexusCore</div>
+                <div class="t-server">🤖 Dev Server · 6K members</div>
+              </div>
+            </div>
+            <p class="t-content">"As someone who codes bots myself, I'm genuinely impressed. The architecture behind this must be solid — zero downtime in 8 months of use."</p>
+            <div class="t-stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prev-btn">←</button>
+        <div class="carousel-dots" id="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+        <button class="carousel-btn" id="next-btn">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ──────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-pattern"></div>
+    <div class="container" style="position:relative;">
+      <div class="reveal">
+        <div class="section-eyebrow" style="margin-bottom:20px;">Ready to start?</div>
+        <h2 class="display-lg" style="margin-bottom:16px;">Your economy hub awaits.</h2>
+        <p style="color:var(--text-secondary); font-size:1.05rem; max-width:440px; margin:0 auto 40px; line-height:1.7;">
+          Join 12,400+ servers building thriving economies with EconomyBot. Setup in under 5 minutes.
+        </p>
+        <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+          <a href="https://discord.com" target="_blank" class="btn btn-primary btn-lg">+ Add to Discord — It's Free</a>
+          <a href="guide.html" class="btn btn-secondary btn-lg">Read the Guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <div class="logo-icon">🪙</div>
+            <span>EconomyBot</span>
+          </div>
+          <p class="tagline">The most powerful Discord economy bot. Hub-based interface, player-driven markets, and deep progression systems.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" title="Discord">⚙️</a>
+            <a href="#" class="social-btn" title="Twitter">🐦</a>
+            <a href="#" class="social-btn" title="GitHub">🐙</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Product</div>
+          <ul class="footer-links">
+            <li><a href="commands.html">Commands</a></li>
+            <li><a href="guide.html">Economy Guide</a></li>
+            <li><a href="premium.html">Premium</a></li>
+            <li><a href="status.html">Status</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Resources</div>
+          <ul class="footer-links">
+            <li><a href="guide.html">Getting Started</a></li>
+            <li><a href="status.html#changelog">Changelog</a></li>
+            <li><a href="status.html#roadmap">Roadmap</a></li>
+            <li><a href="status.html#support">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Legal</div>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 EconomyBot. All rights reserved.</p>
+        <div class="built-badge">⚡ Built with Discord Components V2</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Demo Modal ──────────────────────────────────────── -->
+  <div id="demo-modal" class="modal-overlay">
+    <div class="modal">
+      <div style="font-size:48px; margin-bottom:16px;">🚀</div>
+      <h3 class="display-md" style="margin-bottom:12px;">Ready to play?</h3>
+      <p style="color:var(--text-secondary); margin-bottom:28px; line-height:1.6;">Add EconomyBot to your server and start earning coins, trading on the market, and building your economy empire.</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="https://discord.com" target="_blank" class="btn btn-primary">+ Add to Discord</a>
+        <button class="btn btn-secondary" onclick="window.closeModal('demo-modal')">Maybe Later</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ──────────────────────────────────────────── -->
+  <div id="toast"></div>
+
+  <script src="src/js/main.js"></script>
+  <script>
+    // Init particles
+    window.initParticles('hero-particles', 'rgba(88,101,242,0.7)');
+
+    // Typewriter on hero
+    window.typewriter(
+      document.getElementById('hero-typewriter'),
+      ['Reimagined', 'Rebuilt', 'For Your Server', 'Built Different'],
+      90, 2400
+    );
+
+    // Testimonials carousel
+    (function() {
+      const track = document.getElementById('testimonials-track');
+      const dots = document.querySelectorAll('.carousel-dot');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      if (!track) return;
+
+      let current = 0;
+      const cards = track.querySelectorAll('.testimonial-card');
+      const total = cards.length;
+      let autoTimer;
+
+      function goTo(idx) {
+        current = (idx + total) % total;
+        const cardWidth = cards[0].offsetWidth + 20;
+        track.style.transform = `translateX(-${current * cardWidth}px)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      prevBtn?.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+      nextBtn?.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); resetAuto(); }));
+
+      function resetAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => goTo(current + 1), 4000);
+      }
+      resetAuto();
+    })();
+  </script>
+</body>
+</html>
