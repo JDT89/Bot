@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — EconomyBot</title>
+  <meta name="description" content="EconomyBot public roadmap. See what we're building, vote on upcoming features, and track development progress.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+  <link rel="stylesheet" href="src/css/style.css">
+  <style>
+    .page-hero { padding: 130px 0 60px; }
+
+    /* Phase timeline */
+    .phase-timeline { display: flex; flex-direction: column; gap: 0; position: relative; max-width: 800px; }
+    .phase-timeline::before {
+      content: '';
+      position: absolute;
+      left: 23px; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .phase-block { display: flex; gap: 28px; padding-bottom: 40px; position: relative; }
+    .phase-dot {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-dot.done     { background: var(--bg-elevated); border: 2px solid var(--green); }
+    .phase-dot.current  { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-subtle), 0 0 20px var(--accent-glow); }
+    .phase-dot.upcoming { background: var(--bg-elevated); border: 2px solid var(--border-bright); }
+    .phase-content { flex: 1; padding-top: 6px; }
+    .phase-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .phase-label.done    { color: var(--green); }
+    .phase-label.current { color: var(--accent); }
+    .phase-label.upcoming{ color: var(--text-muted); }
+    .phase-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .phase-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; }
+    .phase-items { display: flex; flex-direction: column; gap: 8px; }
+    .phase-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .phase-item-check { font-size: 13px; flex-shrink: 0; }
+    .phase-item-check.done    { color: var(--green); }
+    .phase-item-check.pending { color: var(--accent); }
+    .phase-item-check.future  { color: var(--text-muted); }
+
+    /* Vote board */
+    .vote-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .vote-col { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .vote-col-header {
+      padding: 14px 18px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vote-col-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .vote-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      transition: border-color 0.15s ease;
+    }
+    .vote-card:hover { border-color: var(--border-bright); }
+    .vote-card-title { font-weight: 600; font-size: 0.875rem; margin-bottom: 5px; }
+    .vote-card-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+    .vote-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .vote-count { font-size: 0.75rem; color: var(--text-muted); }
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--bg-overlay);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .vote-btn:hover { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+    .vote-btn.voted { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 900px) { .vote-board { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">🪙</div><span>EconomyBot</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" data-nav-link="home">Home</a></li>
+        <li><a href="commands.html" data-nav-link="commands">Commands</a></li>
+        <li><a href="guide.html" data-nav-link="guide">Guide</a></li>
+        <li><a href="premium.html" data-nav-link="premium">Premium</a></li>
+        <li><a href="status.html" data-nav-link="status">Status</a></li>
+        <li><a href="roadmap.html" data-nav-link="roadmap">Roadmap</a></li>
+        <li><a href="support.html" data-nav-link="support">Support</a></li>
+      </ul>
+      <div class="nav-cta"><a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm">+ Add to Discord</a></div>
+      <button id="nav-mobile-toggle" class="nav-mobile-toggle"><span class="toggle-icon">☰</span></button>
+    </div>
+  </nav>
+  <div id="nav-drawer" class="nav-drawer">
+    <a href="index.html" data-nav-link="home">🏠 Home</a>
+    <a href="commands.html" data-nav-link="commands">⚡ Commands</a>
+    <a href="guide.html" data-nav-link="guide">📖 Guide</a>
+    <a href="premium.html" data-nav-link="premium">👑 Premium</a>
+    <a href="status.html" data-nav-link="status">📊 Status</a>
+    <a href="roadmap.html" data-nav-link="roadmap">🗺️ Roadmap</a>
+    <a href="changelog.html" data-nav-link="changelog">📋 Changelog</a>
+    <a href="support.html" data-nav-link="support">🛟 Support</a>
+    <a href="https://discord.com" target="_blank" style="background:var(--accent-subtle);border-color:var(--accent);color:var(--accent);">+ Add to Discord</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-eyebrow" style="margin-bottom:14px;">Transparency</div>
+      <h1 class="display-lg" style="margin-bottom:12px;">🗺️ Roadmap</h1>
+      <p style="color:var(--text-secondary);font-size:1rem;max-width:560px;line-height:1.7;margin-bottom:0;">
+        Our development roadmap is fully public. Vote on features, track progress, and see exactly what's coming next.
+      </p>
+    </div>
+  </section>
+
+  <!-- Phase timeline -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">Development Phases</div>
+        <h2 class="display-md">Where We've Been &amp; Where We're Going</h2>
+      </div>
+      <div class="phase-timeline reveal">
+
+        <div class="phase-block">
+          <div class="phase-dot done">✓</div>
+          <div class="phase-content">
+            <div class="phase-label done">Completed — Q4 2024</div>
+            <div class="phase-title">Phase 1 — Foundation</div>
+            <div class="phase-desc">Core economy system, initial launch, and hub interface v1.</div>
+            <div class="phase-items">
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Hub-based button interface</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Work, crime, search commands</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Bank &amp; wallet system</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Marketplace with 50+ items</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Basic level &amp; XP system</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Gamble, blackjack, slots</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-block">
+          <div class="phase-dot current">🔨</div>
+          <div class="phase-content">
+            <div class="phase-label current">In Progress — Q1 2025</div>
+            <div class="phase-title">Phase 2 — Depth &amp; Social</div>
+            <div class="phase-desc">Expanding the economy with deeper social mechanics, investments, and improved progression.</div>
+            <div class="phase-items">
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Stock market system</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Premium tier system (Supporter &amp; Elite)</div>
+              <div class="phase-item"><span class="phase-item-check done">✓</span> Trivia &amp; scratch card games</div>
+              <div class="phase-item"><span class="phase-item-check pending">⏳</span> Pet system (in development)</div>
+              <div class="phase-item"><span class="phase-item-check pending">⏳</span> Clan wars (in development)</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Animated Elite profiles</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-block">
+          <div class="phase-dot upcoming">○</div>
+          <div class="phase-content">
+            <div class="phase-label upcoming">Planned — Q2–Q3 2025</div>
+            <div class="phase-title">Phase 3 — Ecosystem</div>
+            <div class="phase-desc">A fully interconnected economy ecosystem with real estate, auctions, and cross-server features.</div>
+            <div class="phase-items">
+              <div class="phase-item"><span class="phase-item-check future">○</span> Real estate &amp; property system</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Auction house</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Achievement &amp; badge system</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Seasonal economy events</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Cross-server marketplace</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-block">
+          <div class="phase-dot upcoming">🌟</div>
+          <div class="phase-content">
+            <div class="phase-label upcoming">Future — Q4 2025+</div>
+            <div class="phase-title">Phase 4 — Platform</div>
+            <div class="phase-desc">EconomyBot evolves from a bot into a platform with its own companion app and advanced tools.</div>
+            <div class="phase-items">
+              <div class="phase-item"><span class="phase-item-check future">○</span> Companion mobile app</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Server admin analytics dashboard</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Public API for developers</div>
+              <div class="phase-item"><span class="phase-item-check future">○</span> Custom economy templates</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Vote board -->
+  <section class="section" style="background:var(--bg-surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">Community Input</div>
+        <h2 class="display-md">Vote on What Gets Built Next</h2>
+        <p class="section-desc">Your votes directly influence our sprint planning. The most-voted features get prioritized.</p>
+      </div>
+      <div class="vote-board reveal">
+        <div class="vote-col">
+          <div class="vote-col-header">🔨 In Development</div>
+          <div class="vote-col-body">
+            <div class="vote-card">
+              <div class="vote-card-title">Pet System</div>
+              <div class="vote-card-desc">Adopt virtual pets that help you earn coins. Level them up, feed them, and show them off in your profile.</div>
+              <div class="vote-card-footer"><span class="vote-count">🗳 312 votes</span><span class="tag tag-blue">In Progress</span></div>
+            </div>
+            <div class="vote-card">
+              <div class="vote-card-title">Clan Wars</div>
+              <div class="vote-card-desc">Form clans with friends and compete in weekly economy wars for massive coin prizes.</div>
+              <div class="vote-card-footer"><span class="vote-count">🗳 287 votes</span><span class="tag tag-blue">In Progress</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vote-col">
+          <div class="vote-col-header">📋 Planned</div>
+          <div class="vote-col-body">
+            <div class="vote-card">
+              <div class="vote-card-title">Real Estate System</div>
+              <div class="vote-card-desc">Buy properties in your server. Collect rent from other users and build a real estate empire.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-realestate">🗳 117 votes</span>
+                <button class="vote-btn" id="vb-realestate" onclick="vote('realestate')">▲ Vote</button>
+              </div>
+            </div>
+            <div class="vote-card">
+              <div class="vote-card-title">Auction House</div>
+              <div class="vote-card-desc">List items for auction. Let the server bid. Dynamic, exciting, and great for rare items.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-auction">🗳 89 votes</span>
+                <button class="vote-btn" id="vb-auction" onclick="vote('auction')">▲ Vote</button>
+              </div>
+            </div>
+            <div class="vote-card">
+              <div class="vote-card-title">Achievement System</div>
+              <div class="vote-card-desc">Earn badges for milestones. Show them on your profile as a flex.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-achievements">🗳 64 votes</span>
+                <button class="vote-btn" id="vb-achievements" onclick="vote('achievements')">▲ Vote</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vote-col">
+          <div class="vote-col-header">💡 Ideas</div>
+          <div class="vote-col-body">
+            <div class="vote-card">
+              <div class="vote-card-title">Companion App</div>
+              <div class="vote-card-desc">A standalone app with push notifications, stats, and daily reminders to claim rewards.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-app">🗳 42 votes</span>
+                <button class="vote-btn" id="vb-app" onclick="vote('app')">▲ Vote</button>
+              </div>
+            </div>
+            <div class="vote-card">
+              <div class="vote-card-title">Seasonal Events</div>
+              <div class="vote-card-desc">Monthly themed economies — Christmas markets, Halloween crime sprees, Spring trading festivals.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-seasonal">🗳 38 votes</span>
+                <button class="vote-btn" id="vb-seasonal" onclick="vote('seasonal')">▲ Vote</button>
+              </div>
+            </div>
+            <div class="vote-card">
+              <div class="vote-card-title">Cross-Server Trading</div>
+              <div class="vote-card-desc">Trade items between different Discord servers through a shared global marketplace.</div>
+              <div class="vote-card-footer">
+                <span class="vote-count" id="vc-crossserver">🗳 29 votes</span>
+                <button class="vote-btn" id="vb-crossserver" onclick="vote('crossserver')">▲ Vote</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="toast"></div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><div class="logo-icon">🪙</div><span>EconomyBot</span></div>
+          <p class="tagline">The most powerful Discord economy bot.</p>
+          <div class="footer-social"><a href="#" class="social-btn">⚙️</a><a href="#" class="social-btn">🐦</a><a href="#" class="social-btn">🐙</a></div>
+        </div>
+        <div><div class="footer-heading">Product</div><ul class="footer-links"><li><a href="commands.html">Commands</a></li><li><a href="guide.html">Guide</a></li><li><a href="premium.html">Premium</a></li><li><a href="status.html">Status</a></li></ul></div>
+        <div><div class="footer-heading">Updates</div><ul class="footer-links"><li><a href="roadmap.html">Roadmap</a></li><li><a href="changelog.html">Changelog</a></li><li><a href="support.html">Support</a></li></ul></div>
+        <div><div class="footer-heading">Legal</div><ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 EconomyBot. All rights reserved.</p>
+        <div class="built-badge">⚡ Built with Discord Components V2</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/main.js"></script>
+  <script>
+    const voted = new Set();
+    window.vote = function(id) {
+      if (voted.has(id)) { window.showToast('Already voted!'); return; }
+      voted.add(id);
+      const countEl = document.getElementById('vc-' + id);
+      const btnEl = document.getElementById('vb-' + id);
+      if (countEl) {
+        const current = parseInt(countEl.textContent.match(/\d+/)[0]);
+        countEl.textContent = `🗳 ${current + 1} votes`;
+      }
+      if (btnEl) { btnEl.classList.add('voted'); btnEl.textContent = '✓ Voted'; }
+      window.showToast('Thanks for voting! Your feedback shapes our roadmap.');
+    };
+  </script>
+</body>
+</html>
