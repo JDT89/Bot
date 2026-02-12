@@ -506,7 +506,7 @@ footer {
 .tag-green  { background: rgba(87,242,135,0.1); color: var(--green); border: 1px solid rgba(87,242,135,0.2); }
 .tag-yellow { background: rgba(254,231,92,0.1); color: var(--yellow); border: 1px solid rgba(254,231,92,0.2); }
 .tag-red    { background: rgba(237,66,69,0.1);  color: var(--red);   border: 1px solid rgba(237,66,69,0.2); }
-.tag-blue   { background: rgba(88,101,242,0.1); color: #7289ff;      border: 1px solid rgba(88,101,242,0.2); }
+.tag-blue   { background: rgba(88,101,242,0.1); color: var(--accent); border: 1px solid rgba(88,101,242,0.2); }
 .tag-gold   { background: rgba(250,166,26,0.1); color: var(--gold);  border: 1px solid rgba(250,166,26,0.2); }
 
 /* ── Toast notification ─────────────────────────────────── */
@@ -620,7 +620,7 @@ footer {
   animation: coin-spin 4s linear infinite;
 }
 .icon-coin::after {
-  content: '⚙';
+  content: '⚙️';
   position: absolute;
   inset: 0;
   display: flex;
@@ -897,11 +897,6 @@ select:focus-visible {
 .animate-fade-up,
 .animate-scale-in {
   will-change: opacity, transform;
-}
-
-/* Font display swap for performance */
-@font-face {
-  font-display: swap;
 }
 
 /* ── Animations ─────────────────────────────────────────── */
