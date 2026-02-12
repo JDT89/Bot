@@ -279,7 +279,7 @@
     }
     .feature-card:hover::before { opacity: 1; }
     .feature-icon {
-      width: 48px; height: 48px;
+      width: 72px; height: 72px;
       border-radius: 12px;
       background: var(--accent-subtle);
       display: flex;
@@ -287,6 +287,14 @@
       justify-content: center;
       font-size: 22px;
       margin-bottom: 16px;
+    }
+    .feature-icon .icon-coin,
+    .feature-icon .icon-chest,
+    .feature-icon .icon-cart,
+    .feature-icon .icon-quest,
+    .feature-icon .icon-stats {
+      width: 48px;
+      height: 48px;
     }
     .feature-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
     .feature-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
@@ -828,12 +836,12 @@
       </div>
       <div class="feature-grid">
         <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-icon">🎛️</div>
+          <div class="feature-icon"><span class="icon-coin"></span></div>
           <div class="feature-title">Visual Hub Interface</div>
           <p class="feature-desc">No more memorizing commands. Every action lives in a clean button-driven hub that feels native to Discord.</p>
         </div>
         <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-icon">📈</div>
+          <div class="feature-icon"><span class="icon-stats"></span></div>
           <div class="feature-title">Player-Driven Economy</div>
           <p class="feature-desc">Real supply and demand. Items fluctuate in price based on what your server actually buys and sells.</p>
         </div>
@@ -848,7 +856,7 @@
           <p class="feature-desc">Every component designed for thumbs. Works beautifully whether you're on desktop or mobile Discord.</p>
         </div>
         <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-icon">🌟</div>
+          <div class="feature-icon"><span class="icon-chest"></span></div>
           <div class="feature-title">Always Evolving</div>
           <p class="feature-desc">Seasonal events, limited-time items, and holiday content keep your server economy feeling fresh year-round.</p>
         </div>

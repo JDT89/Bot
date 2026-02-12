@@ -757,6 +757,12 @@ footer {
   border-radius: 2px;
   box-shadow: 0 4px 8px rgba(88, 101, 242, 0.3);
 }
+/* Third bar using background gradient trick */
+.icon-stats {
+  background: 
+    linear-gradient(var(--gold) 0%, var(--gold) 100%) no-repeat 
+    65% 15% / 15% 70%;
+}
 
 @keyframes coin-spin {
   0%, 100% { transform: rotateY(0deg); }
