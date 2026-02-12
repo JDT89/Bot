@@ -27,12 +27,7 @@ const INCLUDE = [
 // Clean dist directory
 function rmDir(dirPath) {
   if (fs.existsSync(dirPath)) {
-    fs.readdirSync(dirPath).forEach(file => {
-      const curPath = path.join(dirPath, file);
-      if (fs.lstatSync(curPath).isDirectory()) rmDir(curPath);
-      else fs.unlinkSync(curPath);
-    });
-    fs.rmdirSync(dirPath);
+    fs.rmSync(dirPath, { recursive: true, force: true });
   }
 }
 
@@ -58,6 +53,7 @@ rmDir(DIST);
 fs.mkdirSync(DIST, { recursive: true });
 
 // Copy files and directories
+let fileCount = 0;
 INCLUDE.forEach(item => {
   const src = path.join(ROOT, item);
   const dest = path.join(DIST, item);
@@ -74,10 +70,11 @@ INCLUDE.forEach(item => {
   } else {
     fs.copyFileSync(src, dest);
     console.log(`  📄 Copied file      → dist/${item}`);
+    fileCount++;
   }
 });
 
 console.log('\n✅ Build complete! Output: ./dist/');
 console.log('\nStatic files ready for deployment:');
-console.log(`  Total files copied: ${INCLUDE.length}`);
-console.log('  Publish Directory:  dist/\n');
+console.log(`  HTML files copied: ${fileCount}`);
+console.log('  Publish Directory: dist/\n');
