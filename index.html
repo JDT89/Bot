@@ -7,7 +7,7 @@
   <!-- Primary Meta Tags -->
   <title>Economy Bot — The Discord Economy Bot Reimagined</title>
   <meta name="title" content="Economy Bot — The Discord Economy Bot Reimagined">
-  <meta name="description" content="Transform your Discord server with the most powerful economy bot. Hub-based interface, player-driven markets, deep progression systems, and stunning visual design. Join 12,400+ servers today!">
+  <meta name="description" content="Transform your Discord server with the most powerful economy bot. Hub-based interface, player-driven markets, deep progression systems, and stunning visual design.">
   <meta name="keywords" content="discord bot, economy bot, discord economy, discord game, discord marketplace, discord rpg, discord trading, bot commands">
   <meta name="author" content="EconomyBot Team">
   <meta name="theme-color" content="#5865F2">
@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://economybot.com/">
   <meta property="og:title" content="Economy Bot — The Discord Economy Bot Reimagined">
-  <meta property="og:description" content="Transform your Discord server with hub-based economy, player-driven markets, and deep progression. Join 12,400+ servers experiencing the future of Discord economy bots!">
+  <meta property="og:description" content="Transform your Discord server with hub-based economy, player-driven markets, and deep progression.">
   <meta property="og:image" content="https://economybot.com/og-image.png">
   <meta property="og:site_name" content="EconomyBot">
   
@@ -170,7 +170,7 @@
     .mockup-dot-r { background: #ed4245; }
     .mockup-dot-y { background: #fee75c; }
     .mockup-dot-g { background: #57f287; }
-    .mockup-title { font-size: 0.8rem; color: var(--text-muted); margin-left: 6px; font-family: var(--font-mono); }
+    .mockup-title { font-size: 0.85rem; color: var(--text-primary); margin-left: 6px; font-weight: 600; }
     .mockup-body { padding: 20px; }
     /* Hub UI mockup inside */
     .hub-preview {
@@ -661,7 +661,7 @@
 
     <div class="hero-eyebrow">
       <div class="hero-badge-dot" aria-hidden="true"></div>
-      <span>Now Live in 12,400+ Servers</span>
+      <span>Now Live Worldwide</span>
     </div>
 
     <h1 class="hero-title">
@@ -678,8 +678,8 @@
         <span>+ Add to Discord</span>
         <span>→</span>
       </a>
-      <a href="commands.html" class="btn btn-secondary btn-lg" aria-label="View all bot commands">
-        <span>View Commands</span>
+      <a href="https://discord.com" class="btn btn-secondary btn-lg" aria-label="Join our support Discord server">
+        <span>Support</span>
       </a>
     </div>
 
@@ -691,7 +691,7 @@
             <div class="mockup-dot mockup-dot-y"></div>
             <div class="mockup-dot mockup-dot-g"></div>
           </div>
-          <span class="mockup-title"># economy-hub · Your Server</span>
+          <span class="mockup-title"># 💬 economy-hub</span>
         </div>
         <div class="mockup-body">
           <div class="hub-preview">
@@ -820,6 +820,28 @@
           </div>
           <p class="screenshot-caption">Engaging quest system with rich rewards</p>
         </div>
+        <div class="screenshot-item reveal reveal-delay-5">
+          <div class="screenshot-wrapper">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Crect fill='%23111316' width='800' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%235865F2' font-family='sans-serif' font-size='20'%3EProfile Customization%3C/text%3E%3C/svg%3E" 
+                 alt="Profile customization showing badges and banners" 
+                 loading="lazy" 
+                 decoding="async"
+                 width="800"
+                 height="450">
+          </div>
+          <p class="screenshot-caption">Customize your profile with badges and banners</p>
+        </div>
+        <div class="screenshot-item reveal reveal-delay-6">
+          <div class="screenshot-wrapper">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Crect fill='%23111316' width='800' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2357F287' font-family='sans-serif' font-size='20'%3ELeaderboards%3C/text%3E%3C/svg%3E" 
+                 alt="Server leaderboards showing top earners and traders" 
+                 loading="lazy" 
+                 decoding="async"
+                 width="800"
+                 height="450">
+          </div>
+          <p class="screenshot-caption">Compete on server leaderboards for glory</p>
+        </div>
       </div>
     </div>
   </section>
@@ -867,147 +889,6 @@
     </div>
   </section>
 
-  <!-- ── Interactive Demo ───────────────────────────────── -->
-  <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-eyebrow">Try It</div>
-        <h2 class="display-md">Feel it before you install</h2>
-        <p class="section-desc">Click the buttons — this is exactly what your users see. No commands to memorize.</p>
-      </div>
-      <div class="demo-container reveal" style="max-width: 640px; margin: 0 auto;">
-        <!-- Discord-style channel header -->
-        <div class="demo-header">
-          <div class="demo-bot-avatar">🤖</div>
-          <div>
-            <div class="demo-bot-name">EconomyBot <span class="tag tag-blue" style="font-size:0.65rem; padding:2px 6px;">BOT</span></div>
-            <div class="demo-bot-status"><span class="status-dot"></span> Online · Ready to earn</div>
-          </div>
-          <div style="margin-left:auto;">
-            <button class="cmd-action-btn" onclick="resetDemo()" title="Reset demo">↺ Reset</button>
-          </div>
-        </div>
-
-        <!-- Message feed -->
-        <div class="demo-feed" id="demo-feed">
-          <!-- Initial hub message -->
-          <div class="demo-message" id="demo-hub-msg">
-            <div class="demo-msg-avatar">🤖</div>
-            <div class="demo-msg-body">
-              <div class="demo-msg-name">EconomyBot <span class="tag tag-blue" style="font-size:0.6rem;padding:1px 5px;">BOT</span> <span class="demo-msg-time">Today at 4:20 PM</span></div>
-              <div class="demo-msg-content">Here's your economy hub, <strong>DemoUser</strong>! 👋</div>
-              <div class="demo-hub-card">
-                <div class="demo-hub-topbar">
-                  <div>
-                    <div style="font-weight:700;font-size:0.9rem;">DemoUser</div>
-                    <div style="font-size:0.75rem;color:var(--text-muted);">Level 12 · 🏅 Hustler</div>
-                  </div>
-                  <div style="text-align:right;">
-                    <div id="demo-balance" style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--gold);">⚙ 5,200</div>
-                    <div style="font-size:0.7rem;color:var(--text-muted);">wallet</div>
-                  </div>
-                </div>
-                <div class="demo-hub-btns" id="demo-hub-btns">
-                  <button class="demo-hub-btn" onclick="demoAction('work')">💼 Work</button>
-                  <button class="demo-hub-btn" onclick="demoAction('search')">🔍 Search</button>
-                  <button class="demo-hub-btn" onclick="demoAction('crime')">⚔️ Crime</button>
-                  <button class="demo-hub-btn" onclick="demoAction('gamble')">🎰 Gamble</button>
-                  <button class="demo-hub-btn" onclick="demoAction('bank')">🏦 Bank</button>
-                  <button class="demo-hub-btn" onclick="demoAction('profile')">👤 Profile</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Response messages injected here -->
-        </div>
-        <div class="demo-footer-note">
-          ✨ Interactive demo — <a href="https://discord.com" target="_blank">Add to Discord</a> to use for real
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Testimonials ───────────────────────────────────── -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-eyebrow">Community</div>
-        <h2 class="display-md">Loved by thousands of servers</h2>
-        <p class="section-desc">From small friend groups to servers with 10K+ members. Here's what they're saying.</p>
-      </div>
-      <div class="testimonials-carousel reveal" id="testimonials">
-        <div class="testimonials-track" id="testimonials-track">
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="t-avatar" style="background:linear-gradient(135deg,#5865F2,#7289ff)">Z</div>
-              <div>
-                <div class="t-name">ZephyrKing</div>
-                <div class="t-server">⚔️ RPG Realm · 4,200 members</div>
-              </div>
-            </div>
-            <p class="t-content">"We switched from MEE6 economy and never looked back. The hub interface is genuinely the best thing to happen to Discord bots. Our activity went up 300%."</p>
-            <div class="t-stars">★★★★★</div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="t-avatar" style="background:linear-gradient(135deg,#57F287,#3dad66)">L</div>
-              <div>
-                <div class="t-name">LunaVault</div>
-                <div class="t-server">🎮 Gaming Lounge · 12K members</div>
-              </div>
-            </div>
-            <p class="t-content">"The market system is insane. People are actually trading items, prices fluctuate — it feels like a mini MMO inside Discord. My server loves it."</p>
-            <div class="t-stars">★★★★★</div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="t-avatar" style="background:linear-gradient(135deg,#FAA61A,#f07b00)">T</div>
-              <div>
-                <div class="t-name">ThoraxBlue</div>
-                <div class="t-server">🌐 Chill Zone · 800 members</div>
-              </div>
-            </div>
-            <p class="t-content">"Even our least tech-savvy members figured it out without help. That's the magic of the hub. Setup took me 5 minutes. No docs needed."</p>
-            <div class="t-stars">★★★★★</div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="t-avatar" style="background:linear-gradient(135deg,#EB459E,#c0356e)">P</div>
-              <div>
-                <div class="t-name">PrismWave</div>
-                <div class="t-server">🎨 Creative Hub · 2,100 members</div>
-              </div>
-            </div>
-            <p class="t-content">"The seasonal events keep everything fresh. Halloween economy update had my whole server grinding for those limited items. 10/10 bot."</p>
-            <div class="t-stars">★★★★★</div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-header">
-              <div class="t-avatar" style="background:linear-gradient(135deg,#5865F2,#EB459E)">N</div>
-              <div>
-                <div class="t-name">NexusCore</div>
-                <div class="t-server">🤖 Dev Server · 6K members</div>
-              </div>
-            </div>
-            <p class="t-content">"As someone who codes bots myself, I'm genuinely impressed. The architecture behind this must be solid — zero downtime in 8 months of use."</p>
-            <div class="t-stars">★★★★★</div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn" id="prev-btn">←</button>
-        <div class="carousel-dots" id="carousel-dots">
-          <div class="carousel-dot active"></div>
-          <div class="carousel-dot"></div>
-          <div class="carousel-dot"></div>
-          <div class="carousel-dot"></div>
-          <div class="carousel-dot"></div>
-        </div>
-        <button class="carousel-btn" id="next-btn">→</button>
-      </div>
-    </div>
-  </section>
-
   <!-- ── Final CTA ──────────────────────────────────────── -->
   <section class="cta-section">
     <div class="cta-bg"></div>
@@ -1017,7 +898,7 @@
         <div class="section-eyebrow" style="margin-bottom:20px;">Ready to start?</div>
         <h2 class="display-lg" style="margin-bottom:16px;">Your economy hub awaits.</h2>
         <p style="color:var(--text-secondary); font-size:1.05rem; max-width:440px; margin:0 auto 40px; line-height:1.7;">
-          Join 12,400+ servers building thriving economies with EconomyBot. Setup in under 5 minutes.
+          Build thriving economies with EconomyBot. Setup in under 5 minutes.
         </p>
         <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
           <a href="https://discord.com" target="_blank" class="btn btn-primary btn-lg">+ Add to Discord — It's Free</a>
