@@ -19,14 +19,6 @@
       <stop offset="100%" style="stop-color:#e0e2e8;stop-opacity:1" />
     </linearGradient>
     
-    <!-- Glow effect -->
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
     
     <!-- Subtle shadow -->
     <filter id="shadow">
@@ -58,18 +50,11 @@
   </g>
   
   <!-- Brand text with modern styling -->
-  <text x="65" y="27" font-family="'Bricolage Grotesque', 'Arial Black', sans-serif" font-size="24" font-weight="800" fill="url(#textGradient)" letter-spacing="-0.5">
+  <text x="50" y="40" font-family="'Bricolage Grotesque', 'Arial Black', sans-serif" font-size="24" font-weight="800" fill="url(#textGradient)" letter-spacing="-0.5">
     Coin
   </text>
-  <text x="112" y="27" font-family="'Bricolage Grotesque', 'Arial Black', sans-serif" font-size="24" font-weight="800" fill="url(#accentGradient)" letter-spacing="-0.5">
+  <text x="105" y="40" font-family="'Bricolage Grotesque', 'Arial Black', sans-serif" font-size="24" font-weight="800" fill="url(#accentGradient)" letter-spacing="-0.5">
     Hub
   </text>
   
-  <!-- Tagline -->
-  <text x="65" y="40" font-family="'Space Grotesk', Arial, sans-serif" font-size="8" font-weight="500" fill="#8b90a0" letter-spacing="1.2">
-    ECONOMY BOT
-  </text>
-  
-  <!-- Decorative accent -->
-  <rect x="65" y="44" width="70" height="1.5" fill="url(#accentGradient)" rx="0.75" opacity="0.5"/>
 </svg>
