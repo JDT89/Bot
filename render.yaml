@@ -19,6 +19,9 @@ services:
       - path: /src/*
         name: Cache-Control
         value: public, max-age=86400
+      - path: /assets/images/*
+        name: Cache-Control
+        value: public, max-age=31536000
     routes:
       - type: rewrite
         source: /home
