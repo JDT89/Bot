@@ -408,7 +408,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/economy', '✓ Copied /economy')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('economy')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -429,7 +429,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/work', '✓ Copied /work')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('work')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -450,7 +450,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/crime', '✓ Copied /crime')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('crime')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -470,7 +470,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/search', '✓ Copied /search')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('search')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -490,7 +490,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/bank', '✓ Copied /bank')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('bank')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -510,7 +510,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/market', '✓ Copied /market')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('market')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -530,7 +530,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/daily', '✓ Copied /daily')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('daily')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -550,7 +550,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/balance', '✓ Copied /balance')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('balance')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -571,7 +571,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/invest', '✓ Copied /invest')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('invest')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -591,7 +591,7 @@
                 </div>
                 <div class="command-actions">
                   <button class="cmd-action-btn" onclick="window.copyText('/leaderboard', '✓ Copied /leaderboard')">📋 Copy</button>
-                  <button class="cmd-action-btn" onclick="window.openModal('demo-modal')">▶ Try It</button>
+                  <button class="cmd-action-btn" onclick="window.showCommandDemo('leaderboard')">▶ Try It</button>
                 </div>
               </div>
             </div>
@@ -838,16 +838,11 @@
     </div>
   </div>
 
-  <!-- Demo Modal -->
-  <div id="demo-modal" class="modal-overlay">
-    <div class="modal">
-      <div style="font-size:48px; margin-bottom:16px;">⚡</div>
-      <h3 class="display-md" style="margin-bottom:12px;">Add the bot first!</h3>
-      <p style="color:var(--text-secondary); margin-bottom:28px; line-height:1.6;">Add EconomyBot to your server to try this command for real. Takes less than 30 seconds.</p>
-      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-        <a href="https://discord.com" target="_blank" class="btn btn-primary">+ Add to Discord</a>
-        <button class="btn btn-secondary" onclick="window.closeModal('demo-modal')">Close</button>
-      </div>
+  <!-- Command Demo Modal -->
+  <div id="command-demo-modal" class="modal-overlay">
+    <div class="modal" style="max-width: 680px;">
+      <button class="modal-close" onclick="window.closeModal('command-demo-modal')" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;color:var(--text-muted);cursor:pointer;padding:4px 8px;border-radius:4px;transition:all 0.15s ease;" onmouseover="this.style.color='var(--text-primary)';this.style.background='var(--bg-elevated)'" onmouseout="this.style.color='var(--text-muted)';this.style.background='none'">×</button>
+      <div id="demo-content"></div>
     </div>
   </div>
 
@@ -920,6 +915,349 @@
         pill.classList.add('active');
       }
       filterCommands();
+    };
+
+    // ── Command Demos ────────────────────────────────────────────
+    window.showCommandDemo = function(command) {
+      const demoContent = document.getElementById('demo-content');
+      if (!demoContent) return;
+
+      const demos = {
+        economy: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">💰</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/economy Hub</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:500px; text-align:left;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border);">
+                <div>
+                  <div style="font-weight:700; font-size:1.1rem; color:var(--text-primary);">DemoUser</div>
+                  <div style="font-size:0.8rem; color:var(--text-muted);">Level 12 · 🏅 Hustler</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-family:var(--font-mono); font-size:1.2rem; font-weight:700; color:var(--gold);">⚙ 5,200</div>
+                  <div style="font-size:0.75rem; color:var(--text-muted);">wallet</div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">💼 Work</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">🔍 Search</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">⚔️ Crime</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">🎰 Gamble</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">🏦 Bank</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">👤 Profile</button>
+              </div>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:24px;">Your central command hub for all economy features</p>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        work: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">💼</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/work Success!</h3>
+            <div style="background:linear-gradient(135deg, rgba(87,242,135,0.1), rgba(87,242,135,0.05)); border:1px solid rgba(87,242,135,0.3); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:480px;">
+              <div style="font-size:1rem; color:var(--text-secondary); margin-bottom:16px;">
+                You worked as a <strong style="color:var(--text-primary);">Software Developer</strong>
+              </div>
+              <div style="background:var(--bg-elevated); padding:16px; border-radius:var(--radius-md); margin-bottom:16px;">
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:4px;">Earned</div>
+                <div style="font-family:var(--font-mono); font-size:1.8rem; font-weight:700; color:var(--green);">+⚙ 847</div>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-muted); margin-top:12px;">
+                💪 Work again in <strong style="color:var(--text-primary);">1 hour</strong>
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        crime: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">⚔️</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/crime Attempt</h3>
+            <div style="background:linear-gradient(135deg, rgba(237,66,69,0.1), rgba(237,66,69,0.05)); border:1px solid rgba(237,66,69,0.3); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:480px;">
+              <div style="font-size:1rem; color:var(--text-secondary); margin-bottom:16px;">
+                You tried to <strong style="color:var(--text-primary);">Rob a Bank</strong>
+              </div>
+              <div style="font-size:3rem; margin-bottom:8px;">😬</div>
+              <div style="font-size:1.2rem; font-weight:700; color:var(--red); margin-bottom:12px;">Caught!</div>
+              <div style="background:var(--bg-elevated); padding:16px; border-radius:var(--radius-md); margin-bottom:16px;">
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:4px;">Fine Paid</div>
+                <div style="font-family:var(--font-mono); font-size:1.6rem; font-weight:700; color:var(--red);">-⚙ 420</div>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-muted);">
+                ⏱️ Try again in <strong style="color:var(--text-primary);">2 hours</strong>
+              </div>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:24px;">Success rate increases with higher level. Risk vs reward!</p>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        search: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/search Location</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:480px;">
+              <div style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:20px;">Choose a location to search:</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; justify-content:space-between; align-items:center;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">
+                  <span>🏪 Dumpster</span><span style="color:var(--text-muted); font-size:0.85rem;">Common items</span>
+                </button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; justify-content:space-between; align-items:center;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">
+                  <span>🏠 House</span><span style="color:var(--text-muted); font-size:0.85rem;">Better finds</span>
+                </button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); color:var(--text-primary); font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; justify-content:space-between; align-items:center;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">
+                  <span>🏦 Bank Vault</span><span style="color:var(--gold); font-size:0.85rem;">Rare items</span>
+                </button>
+              </div>
+              <div style="margin-top:16px; padding:12px; background:rgba(87,242,135,0.1); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--text-secondary);">
+                Found <strong style="color:var(--green);">+⚙ 234</strong> and <strong style="color:var(--text-primary);">🔑 Key</strong>
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        bank: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">🏦</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/bank Account</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:500px;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div style="background:var(--bg-surface); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border);">
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">WALLET</div>
+                  <div style="font-family:var(--font-mono); font-size:1.3rem; font-weight:700; color:var(--gold);">⚙ 5,200</div>
+                </div>
+                <div style="background:var(--bg-surface); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border);">
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">BANK</div>
+                  <div style="font-family:var(--font-mono); font-size:1.3rem; font-weight:700; color:var(--green);">⚙ 12,840</div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+                <button style="background:var(--accent); color:white; border:none; padding:12px; border-radius:var(--radius-md); font-weight:600; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">📥 Deposit</button>
+                <button style="background:var(--bg-surface); border:1px solid var(--border); color:var(--text-primary); padding:12px; border-radius:var(--radius-md); font-weight:600; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='var(--bg-overlay)'; this.style.borderColor='var(--accent)'" onmouseout="this.style.background='var(--bg-surface)'; this.style.borderColor='var(--border)'">📤 Withdraw</button>
+              </div>
+              <div style="padding:12px; background:rgba(87,242,135,0.1); border-radius:var(--radius-sm); font-size:0.85rem; color:var(--text-secondary);">
+                📈 Earning <strong style="color:var(--green);">+⚙ 32</strong> interest per day (2.5%)
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        market: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">🛒</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/market Browse</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:20px; margin:24px auto; max-width:540px; text-align:left;">
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; gap:12px; align-items:center;">
+                    <div style="font-size:1.8rem;">🎣</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--text-primary);">Fishing Rod</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Catch fish for profit</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 1,200</div>
+                    <div style="font-size:0.75rem; color:var(--green);">↗ +8%</div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; gap:12px; align-items:center;">
+                    <div style="font-size:1.8rem;">🔫</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--text-primary);">Laptop</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Increase work earnings</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 3,500</div>
+                    <div style="font-size:0.75rem; color:var(--red);">↘ -3%</div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; gap:12px; align-items:center;">
+                    <div style="font-size:1.8rem;">💎</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--text-primary);">Diamond</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Rare collectible</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 8,900</div>
+                    <div style="font-size:0.75rem; color:var(--green);">↗ +15%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:24px;">Prices fluctuate based on supply and demand</p>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        daily: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">🎁</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/daily Reward Claimed!</h3>
+            <div style="background:linear-gradient(135deg, rgba(250,166,26,0.1), rgba(250,166,26,0.05)); border:1px solid rgba(250,166,26,0.3); border-radius:var(--radius-lg); padding:24px; margin:24px auto; max-width:480px;">
+              <div style="font-size:1rem; color:var(--text-secondary); margin-bottom:20px;">Daily streak reward</div>
+              <div style="background:var(--bg-elevated); padding:20px; border-radius:var(--radius-md); margin-bottom:16px;">
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">BASE REWARD</div>
+                <div style="font-family:var(--font-mono); font-size:2rem; font-weight:700; color:var(--gold);">+⚙ 500</div>
+                <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+                  <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:4px;">STREAK BONUS (7 days)</div>
+                  <div style="font-family:var(--font-mono); font-size:1.4rem; font-weight:700; color:var(--green);">+⚙ 175</div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center; gap:6px; margin-bottom:12px;">
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+                <div style="width:28px; height:28px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem;">✓</div>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-muted);">
+                🔥 Come back in <strong style="color:var(--text-primary);">24 hours</strong> to continue streak
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        balance: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">💰</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/balance Overview</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:28px; margin:24px auto; max-width:460px;">
+              <div style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border);">
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Wallet</div>
+                <div style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--gold); margin-bottom:4px;">⚙ 5,200</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Available to spend</div>
+              </div>
+              <div style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border);">
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Bank</div>
+                <div style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--green); margin-bottom:4px;">⚙ 12,840</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Protected + earning interest</div>
+              </div>
+              <div style="background:rgba(88,101,242,0.1); padding:16px; border-radius:var(--radius-md); border:1px solid rgba(88,101,242,0.3);">
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Net Worth</div>
+                <div style="font-family:var(--font-mono); font-size:1.8rem; font-weight:700; color:var(--accent);">⚙ 18,040</div>
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        invest: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">📈</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/invest Stock Market</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:20px; margin:24px auto; max-width:520px; text-align:left;">
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:16px; border-radius:var(--radius-md); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-weight:700; color:var(--text-primary); font-size:1.1rem;">COIN</div>
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 142</div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:0.85rem; color:var(--text-muted);">Digital Currency Co.</div>
+                    <div style="font-size:0.9rem; font-weight:600; color:var(--green);">↗ +24.3%</div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:16px; border-radius:var(--radius-md); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-weight:700; color:var(--text-primary); font-size:1.1rem;">TECH</div>
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 89</div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:0.85rem; color:var(--text-muted);">Technology Solutions Inc.</div>
+                    <div style="font-size:0.9rem; font-weight:600; color:var(--red);">↘ -5.8%</div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:16px; border-radius:var(--radius-md); cursor:pointer; transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.background='var(--bg-overlay)'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-surface)'">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-weight:700; color:var(--text-primary); font-size:1.1rem;">FOOD</div>
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold);">⚙ 56</div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:0.85rem; color:var(--text-muted);">Restaurant Empire Ltd.</div>
+                    <div style="font-size:0.9rem; font-weight:600; color:var(--green);">↗ +12.1%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:24px;">Prices change daily based on server activity</p>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `,
+        leaderboard: `
+          <div style="text-align:center; padding:24px;">
+            <div style="font-size:48px; margin-bottom:16px;">🏆</div>
+            <h3 class="display-md" style="margin-bottom:16px;">/leaderboard Top Players</h3>
+            <div style="background:var(--bg-elevated); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:20px; margin:24px auto; max-width:500px; text-align:left;">
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="background:linear-gradient(135deg, rgba(250,166,26,0.15), rgba(250,166,26,0.05)); border:1px solid rgba(250,166,26,0.4); padding:16px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; gap:14px; align-items:center;">
+                    <div style="font-size:1.5rem; font-weight:700; color:var(--gold); min-width:32px;">1st</div>
+                    <div>
+                      <div style="font-weight:700; color:var(--text-primary);">EliteTrader</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Level 47</div>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:var(--font-mono); font-weight:700; color:var(--gold); font-size:1.1rem;">⚙ 284,920</div>
+                  </div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; gap:14px; align-items:center;">
+                    <div style="font-size:1.2rem; font-weight:700; color:var(--text-secondary); min-width:32px;">2nd</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--text-primary);">CryptoKing</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Level 41</div>
+                    </div>
+                  </div>
+                  <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-secondary); font-size:1rem;">⚙ 198,450</div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; gap:14px; align-items:center;">
+                    <div style="font-size:1.2rem; font-weight:700; color:var(--text-secondary); min-width:32px;">3rd</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--text-primary);">GemHunter</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Level 38</div>
+                    </div>
+                  </div>
+                  <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-secondary); font-size:1rem;">⚙ 145,780</div>
+                </div>
+                <div style="background:var(--bg-surface); border:1px solid var(--border); padding:12px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; gap:14px; align-items:center;">
+                    <div style="font-size:1rem; color:var(--text-muted); min-width:32px;">12th</div>
+                    <div>
+                      <div style="font-weight:600; color:var(--accent);">DemoUser (You)</div>
+                      <div style="font-size:0.8rem; color:var(--text-muted);">Level 12</div>
+                    </div>
+                  </div>
+                  <div style="font-family:var(--font-mono); font-weight:700; color:var(--text-muted); font-size:0.95rem;">⚙ 18,040</div>
+                </div>
+              </div>
+            </div>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:24px;">Updated every hour — compete for the top spot!</p>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        `
+      };
+
+      const html = demos[command] || `
+        <div style="text-align:center; padding:24px;">
+          <div style="font-size:48px; margin-bottom:16px;">⚡</div>
+          <h3 class="display-md" style="margin-bottom:12px;">Demo coming soon!</h3>
+          <p style="color:var(--text-secondary); margin-bottom:28px; line-height:1.6;">Add EconomyBot to your server to try this command for real.</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a href="https://discord.com" target="_blank" class="btn btn-primary">+ Add to Discord</a>
+            <button class="btn btn-secondary" onclick="window.closeModal('command-demo-modal')">Close</button>
+          </div>
+        </div>
+      `;
+
+      demoContent.innerHTML = html;
+      window.openModal('command-demo-modal');
     };
 
     window.filterCategory = function(cat, btn) {
