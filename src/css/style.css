@@ -200,7 +200,8 @@ input, textarea, select { font-family: inherit; }
   overflow: hidden;
 }
 nav .nav-logo .logo-icon {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
 }
 .nav-logo .logo-icon img {
