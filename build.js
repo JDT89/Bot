@@ -12,6 +12,7 @@ const DIST = path.join(ROOT, 'dist');
 
 // Files and directories to copy
 const INCLUDE = [
+  'assets',
   'changelog.html',
   'commands.html',
   'guide.html',
