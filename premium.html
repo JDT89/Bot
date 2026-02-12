@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium — EconomyBot</title>
-  <meta name="description" content="Unlock exclusive perks, enhanced rewards, and supporter access. Three tiers to power up your economy experience.">
+  <title>Shop — EconomyBot</title>
+  <meta name="description" content="Unlock exclusive perks, enhanced rewards, and supporter access. Six tiers to power up your economy experience.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
   <link rel="stylesheet" href="src/css/style.css">
   <style>
@@ -304,10 +304,9 @@
         <li><a href="guide.html" data-nav-link="guide">Guide</a></li>
         <li><a href="status.html" data-nav-link="status">Status</a></li>
         <li><a href="roadmap.html" data-nav-link="roadmap">Roadmap</a></li>
-        <li><a href="support.html" data-nav-link="support">Support</a></li>
       </ul>
       <div class="nav-cta">
-        <a href="premium.html" data-nav-link="premium" class="nav-premium">✦ Premium</a>
+        <a href="premium.html" data-nav-link="premium" class="nav-premium">✦ Shop</a>
         <a href="https://discord.com" target="_blank" class="btn btn-primary btn-sm">+ Add to Discord</a>
       </div>
       <button id="nav-mobile-toggle" class="nav-mobile-toggle"><span class="toggle-icon">☰</span></button>
@@ -317,11 +316,10 @@
     <a href="index.html" data-nav-link="home">🏠 Home</a>
     <a href="commands.html" data-nav-link="commands">⚡ Commands</a>
     <a href="guide.html" data-nav-link="guide">📖 Guide</a>
-    <a href="premium.html" data-nav-link="premium" class="nav-premium">✦ Premium</a>
+    <a href="premium.html" data-nav-link="premium" class="nav-premium">✦ Shop</a>
     <a href="status.html" data-nav-link="status">📊 Status</a>
     <a href="roadmap.html" data-nav-link="roadmap">🗺️ Roadmap</a>
     <a href="changelog.html" data-nav-link="changelog">📋 Changelog</a>
-    <a href="support.html" data-nav-link="support">🛟 Support</a>
     <a href="https://discord.com" target="_blank" style="background:var(--accent-subtle);border-color:var(--accent);color:var(--accent);">+ Add to Discord</a>
   </div>
 
@@ -422,6 +420,136 @@
             <button class="tier-cta-btn cta-elite" onclick="window.openModal('payment-modal')">Get Elite →</button>
           </div>
         </div>
+
+        <!-- Pro -->
+        <div class="tier-card">
+          <div class="tier-icon">⚡</div>
+          <div class="tier-name">Pro</div>
+          <div class="tier-tagline">Professional traders who need advanced tools and analytics.</div>
+          <div class="tier-price">
+            <div class="tier-amount" id="pro-price">$5<span>/mo</span></div>
+            <div class="tier-period" id="pro-period">Billed monthly · Cancel anytime</div>
+            <div class="tier-period-annual" id="pro-annual">Billed $48/year (was $60)</div>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Everything in Supporter</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> 3x daily reward coins</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> -35% all cooldowns</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> 500 item inventory slots</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Advanced trading tools</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Market analytics dashboard</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Custom profile theme</div>
+          </div>
+          <div class="tier-cta">
+            <button class="tier-cta-btn" style="background:linear-gradient(135deg,#7289ff,#5865F2);color:white;" onclick="window.openModal('payment-modal')">Get Pro →</button>
+          </div>
+        </div>
+
+        <!-- VIP -->
+        <div class="tier-card">
+          <div class="tier-icon">💫</div>
+          <div class="tier-name">VIP</div>
+          <div class="tier-tagline">Exclusive benefits for serious economy enthusiasts.</div>
+          <div class="tier-price">
+            <div class="tier-amount" id="vip-price">$12<span>/mo</span></div>
+            <div class="tier-period" id="vip-period">Billed monthly · Cancel anytime</div>
+            <div class="tier-period-annual" id="vip-annual">Billed $115.20/year (was $144)</div>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Everything in Elite</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> 7x daily reward coins</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> -60% all cooldowns</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Custom bot responses</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> VIP-only trading channel</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Monthly exclusive item drops</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Profile video backgrounds</div>
+          </div>
+          <div class="tier-cta">
+            <button class="tier-cta-btn" style="background:linear-gradient(135deg,#EB459E,#c0356e);color:white;" onclick="window.openModal('payment-modal')">Get VIP →</button>
+          </div>
+        </div>
+
+        <!-- Ultimate -->
+        <div class="tier-card">
+          <div class="tier-icon">🌟</div>
+          <div class="tier-name">Ultimate</div>
+          <div class="tier-tagline">The ultimate experience with every feature unlocked.</div>
+          <div class="tier-price">
+            <div class="tier-amount" id="ultimate-price">$20<span>/mo</span></div>
+            <div class="tier-period" id="ultimate-period">Billed monthly · Cancel anytime</div>
+            <div class="tier-period-annual" id="ultimate-annual">Billed $192/year (was $240)</div>
+          </div>
+          <div class="tier-features">
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Everything in VIP</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> 10x daily reward coins</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> -75% all cooldowns</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Exclusive Ultimate badge</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Priority feature requests</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Personal economy consultant</div>
+            <div class="tier-feature"><span class="tier-feature-icon">✓</span> Lifetime supporter recognition</div>
+          </div>
+          <div class="tier-cta">
+            <button class="tier-cta-btn" style="background:linear-gradient(135deg,#57F287,#3dad66);color:#000;font-weight:700;" onclick="window.openModal('payment-modal')">Get Ultimate →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Currency Section -->
+  <section class="section" style="background:var(--bg-surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-eyebrow">In-Game Currency</div>
+        <h2 class="display-md">Purchase Premium Currency</h2>
+        <p class="section-desc">Get instant coins delivered directly to your wallet. Perfect for jumpstarting your economy or gifting to friends.</p>
+      </div>
+      <div class="tiers-grid reveal" style="max-width:900px;">
+        <!-- Small Pack -->
+        <div class="tier-card" style="padding:24px 20px;">
+          <div class="tier-icon" style="font-size:28px;">💰</div>
+          <div class="tier-name" style="font-size:1.1rem;">Small Pack</div>
+          <div class="tier-tagline" style="margin-bottom:16px;">Great starter boost</div>
+          <div class="tier-price" style="margin-bottom:20px;padding-bottom:16px;">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--gold);">10,000</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">coins</div>
+            <div style="font-size:1.3rem;font-weight:700;margin-top:12px;">$2.99</div>
+          </div>
+          <button class="tier-cta-btn" style="background:var(--bg-elevated);border:1px solid var(--border-bright);color:var(--text-primary);width:100%;" onclick="window.showToast('Redirecting to payment...')">Purchase</button>
+        </div>
+
+        <!-- Medium Pack -->
+        <div class="tier-card" style="padding:24px 20px;border-color:var(--accent);">
+          <div class="popular-badge" style="top:-10px;">⭐ Best Value</div>
+          <div class="tier-icon" style="font-size:28px;">💎</div>
+          <div class="tier-name" style="font-size:1.1rem;">Medium Pack</div>
+          <div class="tier-tagline" style="margin-bottom:16px;">Most popular choice</div>
+          <div class="tier-price" style="margin-bottom:20px;padding-bottom:16px;">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--gold);">50,000</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">coins</div>
+            <div style="font-size:1.3rem;font-weight:700;margin-top:12px;">$12.99</div>
+            <div style="font-size:0.7rem;color:var(--green);margin-top:4px;">Save 13%</div>
+          </div>
+          <button class="tier-cta-btn cta-supporter" style="width:100%;" onclick="window.showToast('Redirecting to payment...')">Purchase</button>
+        </div>
+
+        <!-- Large Pack -->
+        <div class="tier-card" style="padding:24px 20px;">
+          <div class="tier-icon" style="font-size:28px;">👑</div>
+          <div class="tier-name" style="font-size:1.1rem;">Large Pack</div>
+          <div class="tier-tagline" style="margin-bottom:16px;">Maximum value</div>
+          <div class="tier-price" style="margin-bottom:20px;padding-bottom:16px;">
+            <div style="font-size:1.8rem;font-weight:700;color:var(--gold);">150,000</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">coins</div>
+            <div style="font-size:1.3rem;font-weight:700;margin-top:12px;">$29.99</div>
+            <div style="font-size:0.7rem;color:var(--green);margin-top:4px;">Save 33%</div>
+          </div>
+          <button class="tier-cta-btn cta-elite" style="width:100%;" onclick="window.showToast('Redirecting to payment...')">Purchase</button>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:32px;color:var(--text-secondary);font-size:0.875rem;max-width:600px;margin-left:auto;margin-right:auto;">
+        <p style="margin-bottom:8px;">💡 <strong>Coins are delivered instantly</strong> to your Discord wallet after purchase.</p>
+        <p>All purchases are non-refundable. Coins can be gifted to other users via the /gift command.</p>
       </div>
     </div>
   </section>
@@ -561,12 +689,11 @@
           <p class="tagline">The most powerful Discord economy bot.</p>
           <div class="footer-social"><a href="#" class="social-btn">⚙️</a><a href="#" class="social-btn">🐦</a><a href="#" class="social-btn">🐙</a></div>
         </div>
-        <div><div class="footer-heading">Product</div><ul class="footer-links"><li><a href="commands.html">Commands</a></li><li><a href="guide.html">Guide</a></li><li><a href="premium.html">Premium</a></li><li><a href="status.html">Status</a></li></ul></div>
+        <div><div class="footer-heading">Product</div><ul class="footer-links"><li><a href="commands.html">Commands</a></li><li><a href="guide.html">Guide</a></li><li><a href="premium.html">Shop</a></li><li><a href="status.html">Status</a></li></ul></div>
         <div>                    <div class="footer-heading">Updates</div>
           <ul class="footer-links">
             <li><a href="roadmap.html">Roadmap</a></li>
             <li><a href="changelog.html">Changelog</a></li>
-            <li><a href="support.html">Support</a></li>
           </ul></div>
         <div><div class="footer-heading">Legal</div><ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
       </div>
@@ -592,6 +719,15 @@
       const ePrice = document.getElementById('elite-price');
       const ePeriod = document.getElementById('elite-period');
       const eAnnual = document.getElementById('elite-annual');
+      const proPrice = document.getElementById('pro-price');
+      const proPeriod = document.getElementById('pro-period');
+      const proAnnual = document.getElementById('pro-annual');
+      const vipPrice = document.getElementById('vip-price');
+      const vipPeriod = document.getElementById('vip-period');
+      const vipAnnual = document.getElementById('vip-annual');
+      const ultPrice = document.getElementById('ultimate-price');
+      const ultPeriod = document.getElementById('ultimate-period');
+      const ultAnnual = document.getElementById('ultimate-annual');
 
       if (mode === 'annual') {
         sPrice.innerHTML = '$2.40<span>/mo</span>';
@@ -600,6 +736,15 @@
         ePrice.innerHTML = '$6.40<span>/mo</span>';
         ePeriod.textContent = '';
         eAnnual.classList.add('visible');
+        proPrice.innerHTML = '$4<span>/mo</span>';
+        proPeriod.textContent = '';
+        proAnnual.classList.add('visible');
+        vipPrice.innerHTML = '$9.60<span>/mo</span>';
+        vipPeriod.textContent = '';
+        vipAnnual.classList.add('visible');
+        ultPrice.innerHTML = '$16<span>/mo</span>';
+        ultPeriod.textContent = '';
+        ultAnnual.classList.add('visible');
       } else {
         sPrice.innerHTML = '$3<span>/mo</span>';
         sPeriod.textContent = 'Billed monthly · Cancel anytime';
@@ -607,6 +752,15 @@
         ePrice.innerHTML = '$8<span>/mo</span>';
         ePeriod.textContent = 'Billed monthly · Cancel anytime';
         eAnnual.classList.remove('visible');
+        proPrice.innerHTML = '$5<span>/mo</span>';
+        proPeriod.textContent = 'Billed monthly · Cancel anytime';
+        proAnnual.classList.remove('visible');
+        vipPrice.innerHTML = '$12<span>/mo</span>';
+        vipPeriod.textContent = 'Billed monthly · Cancel anytime';
+        vipAnnual.classList.remove('visible');
+        ultPrice.innerHTML = '$20<span>/mo</span>';
+        ultPeriod.textContent = 'Billed monthly · Cancel anytime';
+        ultAnnual.classList.remove('visible');
       }
     }
   </script>

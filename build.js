@@ -20,7 +20,6 @@ const INCLUDE = [
   'premium.html',
   'roadmap.html',
   'status.html',
-  'support.html',
   'src',
 ];
 
