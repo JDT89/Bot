@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AstraBot Dark Theme - Discord-adjacent */
+    --background: 220 14% 4%;
+    --background-secondary: 220 12% 8%;
+    --foreground: 230 50% 97%;
+    --foreground-secondary: 220 10% 68%;
+    
+    --card: 220 12% 8%;
+    --card-foreground: 230 50% 97%;
+    --popover: 220 12% 8%;
+    --popover-foreground: 230 50% 97%;
+    
+    --primary: 78 100% 58%;
+    --primary-foreground: 220 14% 4%;
+    
+    --secondary: 220 10% 14%;
+    --secondary-foreground: 230 50% 97%;
+    
+    --muted: 220 10% 14%;
+    --muted-foreground: 220 10% 58%;
+    
+    --accent: 78 100% 58%;
+    --accent-foreground: 220 14% 4%;
+    
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 220 10% 16%;
+    --input: 220 10% 16%;
+    --ring: 78 100% 58%;
+    --radius: 1.25rem;
+    
+    /* Discord-like UI colors */
+    --discord-blurple: 235 86% 65%;
+    --discord-green: 153 80% 65%;
+    --discord-red: 359 70% 60%;
+    --discord-yellow: 50 100% 65%;
+    --discord-gray: 223 7% 19%;
+    --discord-gray-dark: 220 9% 12%;
+    
+    /* AstraBot specific */
+    --astra-lime: #B8FF2C;
+    --astra-charcoal: #14161B;
+    --astra-dark: #0B0C10;
+    --astra-text: #F5F7FF;
+    --astra-text-muted: #A7ACB8;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--astra-dark);
+    color: var(--astra-text);
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .astra-card {
+    @apply rounded-[28px] border border-white/[0.08] bg-[#14161B]/90 backdrop-blur-sm;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  }
+  
+  .astra-card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .astra-card-hover:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.55), 0 0 40px rgba(184, 255, 44, 0.08);
+  }
+  
+  .astra-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200;
+    background-color: var(--astra-lime);
+    color: var(--astra-dark);
+  }
+  
+  .astra-btn-primary:hover {
+    @apply -translate-y-0.5 scale-[1.02];
+    box-shadow: 0 0 30px rgba(184, 255, 44, 0.35);
+  }
+  
+  .astra-btn-primary:active {
+    @apply scale-[0.98];
+  }
+  
+  .astra-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 border border-white/20 text-white bg-white/5;
+  }
+  
+  .astra-btn-secondary:hover {
+    @apply -translate-y-0.5 bg-white/10 border-white/30;
+  }
+  
+  .astra-btn-secondary:active {
+    @apply scale-[0.98];
+  }
+  
+  .astra-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--astra-lime) 0%, #7FFF00 100%);
+  }
+  
+  .astra-glow {
+    box-shadow: 0 0 40px rgba(184, 255, 44, 0.18);
+  }
+  
+  .astra-orbit-ring {
+    @apply absolute rounded-full border-2 border-dashed;
+    border-color: rgba(184, 255, 44, 0.25);
+  }
+  
+  .astra-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold;
+    background: rgba(184, 255, 44, 0.12);
+    color: var(--astra-lime);
+    border: 1px solid rgba(184, 255, 44, 0.25);
+  }
+  
+  .discord-embed {
+    @apply rounded-lg border-l-4 p-4;
+    background: hsl(var(--discord-gray));
+    border-color: hsl(var(--discord-blurple));
+  }
+  
+  .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-paused {
+    animation-play-state: paused;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--astra-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+  outline: 2px solid rgba(184, 255, 44, 0.6);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(184, 255, 44, 0.3);
+  color: var(--astra-text);
+}
+
+/* Animations */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes star-drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-star-drift {
+  animation: star-drift 25s linear infinite;
+}
